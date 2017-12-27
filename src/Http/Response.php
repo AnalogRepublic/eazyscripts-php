@@ -43,4 +43,13 @@ class Response
 
         return $this->getBody()->token;
     }
+
+    public function getErrors()
+    {
+        if (!isset($this->getBody()->errors)) {
+            return [];
+        }
+
+        return $this->getBody()->errors;
+    }
 }
