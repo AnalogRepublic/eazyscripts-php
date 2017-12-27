@@ -1,0 +1,31 @@
+{
+    "name": "craigchilds/eazyscripts-php",
+    "description": "EazyScripts PHP SDK",
+    "version": "0.1.0",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Craig Childs",
+            "email": "childscraig17@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "EazyScripts\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "mashape/unirest-php": "^3.0",
+        "php": "^7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.2",
+        "vlucas/phpdotenv": "^2.4"
+    }
+}
