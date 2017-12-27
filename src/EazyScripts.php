@@ -3,6 +3,7 @@
 namespace EazyScripts;
 
 use EazyScripts\Http\Request;
+use Unirest\Request\Body;
 
 /**
  * The primary handler for the EazyScripts
@@ -58,14 +59,65 @@ class EazyScripts
 
     /**
      * Make a call to authenticate a user.
+     *
+     * @param array $body
+     * @return EazyScripts\Http\Response
+     */
+    public function authenticate($body)
+    {
+        $body = Body::json($body);
+
+        $request = new Request("/account/authenticate", Request::DEFAULT_HEADERS, $body);
+
+        return $request->post();
+    }
+
+    /**
+     * Grab a list of all the patients
      * 
      * @return EazyScripts\Http\Response
      */
-    public function authenticate()
+    public function getPatients()
     {
-        $request = new Request("/account/authenticate", [], []);
+        $request = new Request("/patients");
 
-        return $request->post();
+        $request->withAuthentication();
+
+        return $request->get();
+    }
+
+    /**
+     * Get a single patient record.
+     * 
+     * @param  string $id
+     * @return EazyScripts\Http\Response
+     */
+    public function getPatient($id)
+    {
+
+    }
+
+    /**
+     * Add a new patient record.
+     * 
+     * @param array $body
+     * @return EazyScripts\Http\Response
+     */
+    public function addPatient($body)
+    {
+
+    }
+
+    /**
+     * Update an existing patient
+     *
+     * @param string $id
+     * @param array $body
+     * @return EazyScripts\Http\Response
+     */
+    public function updatePatient($id, $body)
+    {
+
     }
 
     /**

@@ -21,11 +21,6 @@ final class EazyScriptsTest extends TestCase
         $dotenv->load();
     }
 
-    public function testOne()
-    {
-        $this->assertTrue(false);
-    }
-
     public function testCanBeCreatedWithValidCredentials()
     {
         $this->assertInstanceOf(
@@ -36,5 +31,25 @@ final class EazyScriptsTest extends TestCase
                 getenv('EAZYSCRIPTS_SUBDOMAIN')
             )
         );
+    }
+
+    public function testCanAuthenticate()
+    {
+        $api = new EazyScripts(
+            getenv('EAZYSCRIPTS_KEY'),
+            getenv('EAZYSCRIPTS_SECRET'),
+            getenv('EAZYSCRIPTS_SUBDOMAIN')
+        );
+        
+        $response = $api->authenticate([
+            'Email'        => getenv('EAZYSCRIPTS_EMAIL'),
+            'Password'     => getenv('EAZYSCRIPTS_PASSWORD'),
+            'PlatformType' => 'SERVER',
+            'Subdomain'    => getenv('EAZYSCRIPTS_SUBDOMAIN')
+        ]);
+
+        var_dump($response);
+
+        die();
     }
 }

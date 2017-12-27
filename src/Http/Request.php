@@ -24,7 +24,7 @@ class Request
      * 
      * @var string
      */
-    protected $path_pattern = "/api/public/v3/%s/%s";
+    protected $path_pattern = "https://%s.eazyscripts.com/api/public/v3/%s/%s";
 
     /**
      * The path we're making a request to.
@@ -117,8 +117,32 @@ class Request
         return new Response($unirestResponse);
     }
 
+    /**
+     * Make a get request given the information that we have.
+     * 
+     * @return EazyScripts\Http\Response
+     */
+    public function get()
+    {
+        $unirestResponse = UnirestRequest::get($this->path, $this->headers, $this->body);
+
+        return new Response($unirestResponse);
+    }
+
+    /**
+     * Make a put request given the information that we have.
+     * 
+     * @return EazyScripts\Http\Response
+     */
+    public function put()
+    {
+        $unirestResponse = UnirestRequest::put($this->path, $this->headers, $this->body);
+
+        return new Response($unirestResponse);
+    }
+
     private function buildPath($path)
     {
-        return sprintf($this->path_pattern, self::$subdomain, trim($path, '/'));
+        return sprintf($this->path_pattern, self::$subdomain, self::$subdomain, trim($path, '/'));
     }
 }

@@ -9,7 +9,7 @@
          stopOnFailure="false"
          bootstrap="vendor/autoload.php">
   <testsuites>
-    <testsuite name="EazyScripts">
+    <testsuite name="eazyscripts">
       <directory suffix="Test.php">tests</directory>
     </testsuite>
   </testsuites>
