@@ -106,7 +106,13 @@ class EazyScripts
      */
     public function addPatient($body)
     {
+        $body = Body::json($body);
 
+        $request = new Request("/users", Request::DEFAULT_HEADERS, $body);
+
+        $request->withAuthorization($this->getToken(), true);
+
+        return $request->put();
     }
 
     /**

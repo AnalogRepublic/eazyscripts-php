@@ -52,6 +52,8 @@ final class EazyScriptsTest extends TestCase
 
         self::$token = $response->getToken();
 
+        $this->assertObjectNotHasAttribute('error', $response->getBody());
+        $this->assertObjectNotHasAttribute('errors', $response->getBody());
         $this->assertNotFalse(self::$token);
     }
 
@@ -68,5 +70,68 @@ final class EazyScriptsTest extends TestCase
         $response = $api->getPatients();
 
         $this->assertObjectNotHasAttribute('error', $response->getBody());
+        $this->assertObjectNotHasAttribute('errors', $response->getBody());
     }
+
+    public function testCanAddPatient()
+    {
+       $api = new EazyScripts(
+            getenv('EAZYSCRIPTS_KEY'),
+            getenv('EAZYSCRIPTS_SECRET'),
+            getenv('EAZYSCRIPTS_SUBDOMAIN')
+        );
+
+        $api->setToken(self::$token);
+
+        $response = $api->addPatient([
+            "Level"       => 3,
+            "FirstName"   => "Testing",
+            "LastName"    => "Patient",
+            "Email"       => "testing+patient@testemail.com",
+            "Password"    => "pa55word",
+            "DateOfBirth" => "1970-1-1",
+            "Gender"      => 1,
+            "Patient"     => [
+                "HomeAddress" => [
+                    "Address1" => "123 Test Road",
+                    "City"     => "San Diego",
+                    "State"    => "CA",
+                    "Country"  => "USA",
+                    "Zip"      => "60654",
+                    "Type"     => 1,
+                ],
+                "WorkAddress" => [
+                    "Address1" => "123 Test Road",
+                    "City"     => "San Diego",
+                    "State"    => "CA",
+                    "Country"  => "USA",
+                    "Zip"      => "60654",
+                    "Type"     => 2,
+                ],
+                "HomePhoneNumber" => [
+                    "Number"    => "0000000000",
+                    "Extension" => "+1",
+                    "Type"      => 1,
+                ],
+                "WorkPhoneNumber" => [
+                    "Number"    => "0000000000",
+                    "Extension" => "+1",
+                    "Type"      => 2,
+                ],
+            ],
+        ]);
+
+        $this->assertObjectNotHasAttribute('error', $response->getBody());
+        $this->assertObjectNotHasAttribute('errors', $response->getBody());
+    }
+
+    // public function testCanGetPatient()
+    // {
+
+    // }
+
+    // public function testCanUpdatePatient()
+    // {
+
+    // }
 }
