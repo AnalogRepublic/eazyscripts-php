@@ -29,4 +29,18 @@ class Response
     {
         $this->response = $response;
     }
+
+    public function getBody()
+    {
+        return $this->response->body;
+    }
+
+    public function getToken()
+    {
+        if (!isset($this->getBody()->token)) {
+            return false;
+        }
+
+        return $this->getBody()->token;
+    }
 }

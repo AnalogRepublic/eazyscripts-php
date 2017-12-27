@@ -55,6 +55,7 @@ class EazyScripts
         $this->subdomain = $subdomain;
 
         Request::setSubdomain($this->subdomain);
+        Request::setApplicationKeys($this->key, $this->secret);
     }
 
     /**

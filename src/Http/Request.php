@@ -20,6 +20,20 @@ class Request
     private static $subdomain = '';
 
     /**
+     * The application key we pass into the headers
+     * 
+     * @var string
+     */
+    private static $app_key = '';
+
+    /**
+     * The application secret we pass into the headers
+     * 
+     * @var string
+     */
+    private static $app_secret = '';
+
+    /**
      * The primary pattern we're using for the api url.
      * 
      * @var string
@@ -73,7 +87,12 @@ class Request
     public function __construct($path = "/", $headers = self::DEFAULT_HEADERS, $body = [])
     {
         $this->path = $this->buildPath($path);
-        $this->headers = $headers;
+        
+        $this->headers = array_merge([
+            "ApplicationKey"    => self::$app_key,
+            "ApplicationSecret" => self::$app_secret,
+        ], $headers);
+
         $this->body = $body;
     }
 
@@ -103,6 +122,18 @@ class Request
     public static function setSubdomain($subdomain)
     {
         self::$subdomain = $subdomain;
+    }
+
+    /**
+     * Set the application keys.
+     * 
+     * @param string $key
+     * @param string $secret
+     */
+    public static function setApplicationKeys($key, $secret)
+    {
+        self::$app_key = $key;
+        self::$app_secret = $secret;
     }
 
     /**
