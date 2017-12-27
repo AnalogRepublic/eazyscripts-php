@@ -80,9 +80,9 @@ class EazyScripts
      */
     public function getPatients()
     {
-        $request = new Request("/patients");
+        $request = new Request("/patients", Request::DEFAULT_HEADERS, []);
 
-        $request->withAuthentication();
+        $request->withAuthorization($this->getToken(), true);
 
         return $request->get();
     }

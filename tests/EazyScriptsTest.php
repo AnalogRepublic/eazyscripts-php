@@ -12,6 +12,8 @@ use EazyScripts\EazyScriptsException;
  */
 final class EazyScriptsTest extends TestCase
 {
+    protected static $token;
+
     public function setUp()
     {
         parent::setUp();
@@ -48,6 +50,23 @@ final class EazyScriptsTest extends TestCase
             'Subdomain'    => getenv('EAZYSCRIPTS_SUBDOMAIN')
         ]);
 
-        $this->assertNotFalse($response->getToken());
+        self::$token = $response->getToken();
+
+        $this->assertNotFalse(self::$token);
+    }
+
+    public function testCanGetPatients()
+    {
+        $api = new EazyScripts(
+            getenv('EAZYSCRIPTS_KEY'),
+            getenv('EAZYSCRIPTS_SECRET'),
+            getenv('EAZYSCRIPTS_SUBDOMAIN')
+        );
+
+        $api->setToken(self::$token);
+
+        $response = $api->getPatients();
+
+        $this->assertObjectNotHasAttribute('error', $response->getBody());
     }
 }
