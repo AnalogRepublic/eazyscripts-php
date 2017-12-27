@@ -13,6 +13,7 @@ use EazyScripts\EazyScriptsException;
 final class EazyScriptsTest extends TestCase
 {
     protected static $token;
+    protected static $patient_id;
 
     public function setUp()
     {
@@ -75,7 +76,7 @@ final class EazyScriptsTest extends TestCase
 
     public function testCanAddPatient()
     {
-       $api = new EazyScripts(
+        $api = new EazyScripts(
             getenv('EAZYSCRIPTS_KEY'),
             getenv('EAZYSCRIPTS_SECRET'),
             getenv('EAZYSCRIPTS_SUBDOMAIN')
@@ -87,7 +88,7 @@ final class EazyScriptsTest extends TestCase
             "Level"       => 3,
             "FirstName"   => "Testing",
             "LastName"    => "Patient",
-            "Email"       => "testing+patient@testemail.com",
+            "Email"       => time() . "testing+patient@testemail.com",
             "Password"    => "pa55word",
             "DateOfBirth" => "1970-1-1",
             "Gender"      => 1,
@@ -123,12 +124,27 @@ final class EazyScriptsTest extends TestCase
 
         $this->assertObjectNotHasAttribute('error', $response->getBody());
         $this->assertObjectNotHasAttribute('errors', $response->getBody());
+
+        $this->assertObjectHasAttribute('id', $response->getBody());
+
+        self::$patient_id = $response->getBody()->id;
     }
 
-    // public function testCanGetPatient()
-    // {
+    public function testCanGetPatient()
+    {
+        $api = new EazyScripts(
+            getenv('EAZYSCRIPTS_KEY'),
+            getenv('EAZYSCRIPTS_SECRET'),
+            getenv('EAZYSCRIPTS_SUBDOMAIN')
+        );
 
-    // }
+        $api->setToken(self::$token);
+
+        $response = $api->getPatient(self::$patient_id);
+
+        $this->assertObjectNotHasAttribute('error', $response->getBody());
+        $this->assertObjectNotHasAttribute('errors', $response->getBody());
+    }
 
     // public function testCanUpdatePatient()
     // {

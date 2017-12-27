@@ -95,7 +95,11 @@ class EazyScripts
      */
     public function getPatient($id)
     {
+        $request = new Request(sprintf("/patients/%s/info", $id), Request::DEFAULT_HEADERS);
 
+        $request->withAuthorization($this->getToken(), true);
+
+        return $request->get();
     }
 
     /**
