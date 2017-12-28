@@ -265,6 +265,25 @@ class EazyScripts
         return $request->get();
     }
 
+    public function searchMedicines($term = false, $amount = 25, $offset = 0)
+    {
+        $query = [];
+
+        if ($term && is_string($term)) {
+            $query = [
+                "Search" => trim($term),
+                "Take"   => max(0, min(25, $amount)),
+                "Skip"   => max(0, min(25, $offset)),
+            ];
+        }
+
+        $request = new Request("/medicines");
+
+        $request->withAuthorization($this->getToken(), true);
+
+        return $request->get();
+    }
+
     /**
      * Get the token we are using to authenticate
      * our API requests.
