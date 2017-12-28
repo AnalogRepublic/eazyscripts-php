@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace EazyScripts;
 
@@ -10,24 +10,24 @@ use Unirest\Request\Body;
  * API, this is how we interact with it.
  */
 class EazyScripts
-{   
+{
     /**
      * Our API key which we need to access the API.
-     * 
+     *
      * @var string
      */
     private $key;
 
     /**
      * The secret key for our application.
-     * 
+     *
      * @var string
      */
     private $secret;
 
     /**
      * The subdomain our applications account resides on.
-     * 
+     *
      * @var string
      */
     private $subdomain;
@@ -35,7 +35,7 @@ class EazyScripts
     /**
      * The token we're required to obtain and pass to the
      * API calls when we're fetching user information.
-     * 
+     *
      * @var string
      */
     private $token;
@@ -56,7 +56,7 @@ class EazyScripts
     /**
      * Create our EazyScripts API handler with the required
      * API credentials.
-     * 
+     *
      * @param string $key
      * @param string $secret
      * @param string $subdomain
@@ -88,7 +88,7 @@ class EazyScripts
 
     /**
      * Grab a list of all the patients
-     * 
+     *
      * @return EazyScripts\Http\Response
      */
     public function getPatients()
@@ -102,7 +102,7 @@ class EazyScripts
 
     /**
      * Get a single patient record.
-     * 
+     *
      * @param  string $id
      * @return EazyScripts\Http\Response
      */
@@ -117,7 +117,7 @@ class EazyScripts
 
     /**
      * Add a new patient record.
-     * 
+     *
      * @param array $body
      * @return EazyScripts\Http\Response
      */
@@ -156,7 +156,7 @@ class EazyScripts
 
     /**
      * Get all of the prescriber specialties
-     * 
+     *
      * @return EazyScripts\Http\Response
      */
     public function getPrescriberSpecialties()
@@ -169,9 +169,9 @@ class EazyScripts
     }
 
     /**
-     * Get all of the prescriber specialty 
+     * Get all of the prescriber specialty
      * qualifier types.
-     * 
+     *
      * @return EazyScripts\Http\Response
      */
     public function getPrescriberSpecialtyQualifiers()
@@ -185,7 +185,7 @@ class EazyScripts
 
     /**
      * Get all prescribers.
-     * 
+     *
      * @return EazyScripts\Http\Response
      */
     public function getPrescribers()
@@ -199,7 +199,7 @@ class EazyScripts
 
     /**
      * Get a single prescriber.
-     * 
+     *
      * @param  string $id
      * @return EazyScripts\Http\Response
      */
@@ -214,12 +214,12 @@ class EazyScripts
 
     /**
      * Create a new prescriber.
-     * 
+     *
      * @param array $body
      * @return EazyScripts\Http\Response
      */
     public function addPrescriber($body)
-    {   
+    {
         $default = [
             "Level" => self::USER_LEVEL_DOCTOR,
         ];
@@ -235,7 +235,7 @@ class EazyScripts
 
     /**
      * Updated a single prescriber.
-     * 
+     *
      * @param  string $id
      * @param  array $body
      * @return EazyScripts\Http\Response
@@ -252,9 +252,23 @@ class EazyScripts
     }
 
     /**
+     * Get all of the pharmacies
+     *
+     * @return EazyScripts\Http\Response
+     */
+    public function getPharmacies()
+    {
+        $request = new Request("/pharmacies");
+
+        $request->withAuthorization($this->getToken(), true);
+
+        return $request->get();
+    }
+
+    /**
      * Get the token we are using to authenticate
      * our API requests.
-     * 
+     *
      * @return string
      */
     public function getToken()
@@ -265,7 +279,7 @@ class EazyScripts
     /**
      * Set the token, any subsequent requests will use
      * this token in the request.
-     * 
+     *
      * @param string $token
      */
     public function setToken($token)

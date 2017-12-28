@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Tests;
 
@@ -200,7 +200,7 @@ final class EazyScriptsTest extends TestCase
 
         $this->assertObjectNotHasAttribute('error', (object)$response->getBody());
         $this->assertObjectNotHasAttribute('errors', (object)$response->getBody());
-        
+
         $this->assertNotEmpty($response->getBody());
 
         self::$qualifier_id = $response->getBody()[0]->value;
@@ -313,6 +313,22 @@ final class EazyScriptsTest extends TestCase
             "Specialty"          => self::$specialty_id,
             "SpecialtyQualifier" => self::$qualifier_id,
         ]);
+
+        $this->assertObjectNotHasAttribute('error', (object)$response->getBody());
+        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody());
+    }
+
+    public function testCanGetPharmacies()
+    {
+        $api = new EazyScripts(
+            getenv('EAZYSCRIPTS_KEY'),
+            getenv('EAZYSCRIPTS_SECRET'),
+            getenv('EAZYSCRIPTS_SUBDOMAIN')
+        );
+
+        $api->setToken(self::$token);
+
+        $response = $api->getPharmacies();
 
         $this->assertObjectNotHasAttribute('error', (object)$response->getBody());
         $this->assertObjectNotHasAttribute('errors', (object)$response->getBody());
