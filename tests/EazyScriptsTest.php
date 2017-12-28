@@ -344,7 +344,7 @@ final class EazyScriptsTest extends TestCase
 
         $api->setToken(self::$token);
 
-        $response = $api->searchMedicines();
+        $response = $api->getMedicines();
 
         $this->assertObjectNotHasAttribute('error', (object)$response->getBody());
         $this->assertObjectNotHasAttribute('errors', (object)$response->getBody());

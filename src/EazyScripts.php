@@ -265,7 +265,15 @@ class EazyScripts
         return $request->get();
     }
 
-    public function searchMedicines($term = false, $amount = 25, $offset = 0)
+    /**
+     * Get the medicines
+     *
+     * @param  boolean $term
+     * @param  integer $amount
+     * @param  integer $offset
+     * @return EazyScripts\Http\Response
+     */
+    public function getMedicines($term = false, $amount = 25, $offset = 0)
     {
         $query = [];
 
