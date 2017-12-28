@@ -128,7 +128,13 @@ class EazyScripts
      */
     public function updatePatient($id, $body)
     {
+        $body = Body::json($body);
 
+        $request = new Request(sprintf("/patients/%s/info", $id), Request::DEFAULT_HEADERS, $body);
+
+        $request->withAuthorization($this->getToken(), true);
+
+        return $request->post();
     }
 
     /**

@@ -14,6 +14,7 @@ final class EazyScriptsTest extends TestCase
 {
     protected static $token;
     protected static $patient_id;
+    protected static $prescriber_id;
 
     public function setUp()
     {
@@ -58,22 +59,6 @@ final class EazyScriptsTest extends TestCase
         $this->assertNotFalse(self::$token);
     }
 
-    public function testCanGetPatients()
-    {
-        $api = new EazyScripts(
-            getenv('EAZYSCRIPTS_KEY'),
-            getenv('EAZYSCRIPTS_SECRET'),
-            getenv('EAZYSCRIPTS_SUBDOMAIN')
-        );
-
-        $api->setToken(self::$token);
-
-        $response = $api->getPatients();
-
-        $this->assertObjectNotHasAttribute('error', $response->getBody());
-        $this->assertObjectNotHasAttribute('errors', $response->getBody());
-    }
-
     public function testCanAddPatient()
     {
         $api = new EazyScripts(
@@ -90,7 +75,7 @@ final class EazyScriptsTest extends TestCase
             "LastName"    => "Patient",
             "Email"       => time() . "testing+patient@testemail.com",
             "Password"    => "pa55word",
-            "DateOfBirth" => "1970-1-1",
+            "DateOfBirth" => "1970-2-1",
             "Gender"      => 1,
             "Patient"     => [
                 "HomeAddress" => [
@@ -130,6 +115,22 @@ final class EazyScriptsTest extends TestCase
         self::$patient_id = $response->getBody()->id;
     }
 
+    public function testCanGetPatients()
+    {
+        $api = new EazyScripts(
+            getenv('EAZYSCRIPTS_KEY'),
+            getenv('EAZYSCRIPTS_SECRET'),
+            getenv('EAZYSCRIPTS_SUBDOMAIN')
+        );
+
+        $api->setToken(self::$token);
+
+        $response = $api->getPatients();
+
+        $this->assertObjectNotHasAttribute('error', $response->getBody());
+        $this->assertObjectNotHasAttribute('errors', $response->getBody());
+    }
+
     public function testCanGetPatient()
     {
         $api = new EazyScripts(
@@ -146,8 +147,90 @@ final class EazyScriptsTest extends TestCase
         $this->assertObjectNotHasAttribute('errors', $response->getBody());
     }
 
-    // public function testCanUpdatePatient()
-    // {
+    public function testCanUpdatePatient()
+    {
+        $api = new EazyScripts(
+            getenv('EAZYSCRIPTS_KEY'),
+            getenv('EAZYSCRIPTS_SECRET'),
+            getenv('EAZYSCRIPTS_SUBDOMAIN')
+        );
 
-    // }
+        $api->setToken(self::$token);
+
+        $response = $api->updatePatient(self::$patient_id, [
+            "consent" => null,
+        ]);
+
+        $this->assertObjectNotHasAttribute('error', $response->getBody());
+        $this->assertObjectNotHasAttribute('errors', $response->getBody());
+    }
+
+    public function testCanAddPrescriber()
+    {
+        $api = new EazyScripts(
+            getenv('EAZYSCRIPTS_KEY'),
+            getenv('EAZYSCRIPTS_SECRET'),
+            getenv('EAZYSCRIPTS_SUBDOMAIN')
+        );
+
+        $api->setToken(self::$token);
+
+        $response = $api->addPrescriber([
+        ]);
+
+        $this->assertObjectNotHasAttribute('error', $response->getBody());
+        $this->assertObjectNotHasAttribute('errors', $response->getBody());
+
+        $this->assertObjectHasAttribute('id', $response->getBody());
+
+        self::$prescriber_id = $response->getBody()->id;
+    }
+
+    public function testCanGetPrescribers()
+    {
+        $api = new EazyScripts(
+            getenv('EAZYSCRIPTS_KEY'),
+            getenv('EAZYSCRIPTS_SECRET'),
+            getenv('EAZYSCRIPTS_SUBDOMAIN')
+        );
+
+        $api->setToken(self::$token);
+
+        $response = $api->getPrescribers();
+
+        $this->assertObjectNotHasAttribute('error', $response->getBody());
+        $this->assertObjectNotHasAttribute('errors', $response->getBody());
+    }
+
+    public function testCanGetPrescriber()
+    {
+        $api = new EazyScripts(
+            getenv('EAZYSCRIPTS_KEY'),
+            getenv('EAZYSCRIPTS_SECRET'),
+            getenv('EAZYSCRIPTS_SUBDOMAIN')
+        );
+
+        $api->setToken(self::$token);
+
+        $response = $api->getPrescriber(self::$prescriber_id);
+
+        $this->assertObjectNotHasAttribute('error', $response->getBody());
+        $this->assertObjectNotHasAttribute('errors', $response->getBody());
+    }
+
+    public function testCanUpdatePrescriber()
+    {
+        $api = new EazyScripts(
+            getenv('EAZYSCRIPTS_KEY'),
+            getenv('EAZYSCRIPTS_SECRET'),
+            getenv('EAZYSCRIPTS_SUBDOMAIN')
+        );
+
+        $api->setToken(self::$token);
+
+        $response = $api->updatePrescriber(self::$prescriber_id, []);
+
+        $this->assertObjectNotHasAttribute('error', $response->getBody());
+        $this->assertObjectNotHasAttribute('errors', $response->getBody());
+    }
 }
