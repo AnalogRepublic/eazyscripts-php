@@ -309,8 +309,8 @@ final class EazyScriptsTest extends TestCase
         $api->setToken(self::$token);
 
         $response = $api->updatePrescriber(self::$prescriber_id, [
-            "Npi" => "1234567890",
-            "Specialty" => self::$specialty_id,
+            "Npi"                => "1234567890",
+            "Specialty"          => self::$specialty_id,
             "SpecialtyQualifier" => self::$qualifier_id,
         ]);
 
