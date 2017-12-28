@@ -3,6 +3,7 @@
 namespace EazyScripts;
 
 use EazyScripts\Http\Request;
+use EazyScripts\SearchQuery;
 use Unirest\Request\Body;
 
 /**
@@ -266,26 +267,20 @@ class EazyScripts
     }
 
     /**
-     * Get the medicines
+     * Get all medicinesaa
      *
-     * @param  boolean $term
-     * @param  integer $amount
-     * @param  integer $offset
+     * @param  SearchQuery|null $search
      * @return EazyScripts\Http\Response
      */
-    public function getMedicines($term = false, $amount = 25, $offset = 0)
+    public function getMedicines($search = null)
     {
         $query = [];
 
-        if ($term && is_string($term)) {
-            $query = [
-                "Search" => trim($term),
-                "Take"   => max(0, min(25, $amount)),
-                "Skip"   => max(0, min(25, $offset)),
-            ];
+        if (!is_null($search) && $search instanceof SearchQuery) {
+            $query = array_merge($query, $search->getRequestQuery());
         }
 
-        $request = new Request("/medicines");
+        $request = new Request("/medicines", Request::DEFAULT_HEADERS, $query);
 
         $request->withAuthorization($this->getToken(), true);
 
