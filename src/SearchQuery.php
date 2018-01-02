@@ -36,7 +36,7 @@ class SearchQuery
      * @param integer $take
      * @param integer $skip
      */
-    public function __construct($search, $take = 25, $skip = 0)
+    public function __construct($search = "", $take = 25, $skip = 0)
     {
         $this->search = $search;
         $this->take = $take;
@@ -50,10 +50,17 @@ class SearchQuery
      */
     public function getRequestQuery()
     {
-        return [
+        $params = [
             "Search" => trim($this->term),
             "Take"   => max(0, min(25, $this->take)),
             "Skip"   => max(0, min(25, $this->skip)),
         ];
+
+        // If we've not provided a term, then just remove it from the params.
+        if (empty($params["Search"])) {
+            unset($params["Search"]);
+        }
+
+        return $params;
     }
 }
