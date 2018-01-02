@@ -52,8 +52,8 @@ class SearchQuery
     {
         $params = [
             "Search" => trim($this->term),
-            "Take"   => max(0, min(25, $this->take)),
-            "Skip"   => max(0, min(25, $this->skip)),
+            "Take"   => max(0, min(24, $this->take)),
+            "Skip"   => max(0, $this->skip),
         ];
 
         // If we've not provided a term, then just remove it from the params.
