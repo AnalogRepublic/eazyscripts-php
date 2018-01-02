@@ -347,9 +347,6 @@ final class EazyScriptsTest extends TestCase
 
         $response = $api->getMedicines(new SearchQuery("Advil", 1, 0));
 
-        var_dump($response->getBody());
-        die();
-
         $this->assertObjectNotHasAttribute('error', (object)$response->getBody());
         $this->assertObjectNotHasAttribute('errors', (object)$response->getBody());
     }
