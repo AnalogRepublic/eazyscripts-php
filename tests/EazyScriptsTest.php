@@ -3,9 +3,10 @@
 namespace Tests;
 
 use Dotenv\Dotenv;
-use PHPUnit\Framework\TestCase;
 use EazyScripts\EazyScripts;
 use EazyScripts\EazyScriptsException;
+use EazyScripts\SearchQuery;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers EazyScripts\EazyScripts
@@ -344,7 +345,10 @@ final class EazyScriptsTest extends TestCase
 
         $api->setToken(self::$token);
 
-        $response = $api->getMedicines();
+        $response = $api->getMedicines(new SearchQuery("Advil", 1, 0));
+
+        var_dump($response->getBody());
+        die();
 
         $this->assertObjectNotHasAttribute('error', (object)$response->getBody());
         $this->assertObjectNotHasAttribute('errors', (object)$response->getBody());
