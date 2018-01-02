@@ -158,11 +158,18 @@ class EazyScripts
     /**
      * Get all of the prescriber specialties
      *
+     * @param SearchQuery|null $search
      * @return EazyScripts\Http\Response
      */
-    public function getPrescriberSpecialties()
+    public function getPrescriberSpecialties($search = null)
     {
-        $request = new Request("/prescribers/specialties");
+        $query = [];
+
+        if (!is_null($search) && $search instanceof SearchQuery) {
+            $query = array_merge($query, $search->getRequestQuery());
+        }
+
+        $request = new Request("/prescribers/specialties", Request::DEFAULT_HEADERS, $query);
 
         $request->withAuthorization($this->getToken(), true);
 
@@ -173,11 +180,18 @@ class EazyScripts
      * Get all of the prescriber specialty
      * qualifier types.
      *
+     * @param SearchQuery|null $search
      * @return EazyScripts\Http\Response
      */
-    public function getPrescriberSpecialtyQualifiers()
+    public function getPrescriberSpecialtyQualifiers($search = null)
     {
-        $request = new Request("/prescribers/specialty-qualifiers");
+        $query = [];
+
+        if (!is_null($search) && $search instanceof SearchQuery) {
+            $query = array_merge($query, $search->getRequestQuery());
+        }
+
+        $request = new Request("/prescribers/specialty-qualifiers", Request::DEFAULT_HEADERS, $query);
 
         $request->withAuthorization($this->getToken(), true);
 
@@ -187,11 +201,18 @@ class EazyScripts
     /**
      * Get all prescribers.
      *
+     * @param SearchQuery|null $search
      * @return EazyScripts\Http\Response
      */
-    public function getPrescribers()
+    public function getPrescribers($search = null)
     {
-        $request = new Request("/prescribers");
+        $query = [];
+
+        if (!is_null($search) && $search instanceof SearchQuery) {
+            $query = array_merge($query, $search->getRequestQuery());
+        }
+
+        $request = new Request("/prescribers", Request::DEFAULT_HEADERS, $query);
 
         $request->withAuthorization($this->getToken(), true);
 
@@ -255,11 +276,18 @@ class EazyScripts
     /**
      * Get all of the pharmacies
      *
+     * @param  SearchQuery|null $search
      * @return EazyScripts\Http\Response
      */
-    public function getPharmacies()
+    public function getPharmacies($search = null)
     {
-        $request = new Request("/pharmacies");
+        $query = [];
+
+        if (!is_null($search) && $search instanceof SearchQuery) {
+            $query = array_merge($query, $search->getRequestQuery());
+        }
+
+        $request = new Request("/pharmacies", Request::DEFAULT_HEADERS, $query);
 
         $request->withAuthorization($this->getToken(), true);
 
