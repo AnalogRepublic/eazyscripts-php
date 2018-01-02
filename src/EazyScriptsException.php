@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace EazyScripts;
 
@@ -10,8 +10,5 @@ use Exception;
  */
 class EazyScriptsException extends Exception
 {
-    public function __construct() 
-    {
-        parent::__construct();
-    }
+    // default behaviour
 }

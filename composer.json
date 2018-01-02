@@ -22,7 +22,8 @@
     },
     "require": {
         "mashape/unirest-php": "^3.0",
-        "php": "^7.1"
+        "php": "^7.1",
+        "jakeasmith/http_build_url": "^1"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.2",

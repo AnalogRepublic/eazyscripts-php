@@ -350,4 +350,91 @@ final class EazyScriptsTest extends TestCase
         $this->assertObjectNotHasAttribute('error', (object)$response->getBody());
         $this->assertObjectNotHasAttribute('errors', (object)$response->getBody());
     }
+
+    public function testCanAddPrescriberLocation()
+    {
+        $api = new EazyScripts(
+            getenv('EAZYSCRIPTS_KEY'),
+            getenv('EAZYSCRIPTS_SECRET'),
+            getenv('EAZYSCRIPTS_SUBDOMAIN')
+        );
+
+        $api->setToken(self::$token);
+
+        // TODO: Work out why this isn't working....
+        $response = $api->addPrescriberLocation(self::$prescriber_id, [
+            "ClinicName"         => "Test Clinic",
+            "Address"            => [
+                "Type"     => EazyScripts::TYPE_WORK,
+                "Address1" => "555 Noah Way",
+                "City"     => "San Diego",
+                "State"    => "CA",
+                "Country"  => "USA",
+                "Zip"      => "92117",
+            ],
+            "Permissions" => [
+                "NewRx"               => false,
+                "Refill"              => false,
+                "Change"              => false,
+                "Cancel"              => false,
+                "ControlledSubstance" => false,
+            ],
+            "PhoneNumbers" => [
+                [
+                    "Number"    => "4155552671",
+                    "Extension" => "+1",
+                    "Type"      => EazyScripts::TYPE_WORK,
+                ],
+                [
+                    "Number"    => "4155552671",
+                    "Extension" => "+1",
+                    "Type"      => EazyScripts::TYPE_FAX,
+                ]
+            ],
+        ]);
+
+        var_dump($response);
+
+        die();
+
+        $this->assertObjectNotHasAttribute('error', (object)$response->getBody());
+        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody());
+    }
+
+    public function testCanGetPrescriberLocations()
+    {
+        $api = new EazyScripts(
+            getenv('EAZYSCRIPTS_KEY'),
+            getenv('EAZYSCRIPTS_SECRET'),
+            getenv('EAZYSCRIPTS_SUBDOMAIN')
+        );
+
+        $api->setToken(self::$token);
+
+        $response = $api->getPrescriberLocations();
+
+        $this->assertObjectNotHasAttribute('error', (object)$response->getBody());
+        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody());
+    }
+
+    public function testCanGetNewPrescriptionUrl()
+    {
+        $api = new EazyScripts(
+            getenv('EAZYSCRIPTS_KEY'),
+            getenv('EAZYSCRIPTS_SECRET'),
+            getenv('EAZYSCRIPTS_SUBDOMAIN')
+        );
+
+        $api->setToken(self::$token);
+
+        try {
+            $url = $api->getNewPrescriptionUrl([
+                "PatientId" => self::$patient_id,
+            ]);
+        } catch (\Exception $e) {
+            $this->assertTrue(false);
+        }
+
+        $this->assertTrue(!empty($url));
+    }
 }

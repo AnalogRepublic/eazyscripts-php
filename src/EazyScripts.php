@@ -2,6 +2,7 @@
 
 namespace EazyScripts;
 
+use EazyScripts\EazyScriptsException;
 use EazyScripts\Http\Request;
 use EazyScripts\SearchQuery;
 use Unirest\Request\Body;
@@ -274,6 +275,39 @@ class EazyScripts
     }
 
     /**
+     * Add a new prescriber location for a specific prescriber
+     *
+     * @param string $prescriber_id
+     * @param array  $body
+     * @return EazyScripts\Http\Response
+     */
+    public function addPrescriberLocation($prescriber_id, $body)
+    {
+        $body = Body::json($body);
+
+        $request = new Request(sprintf("/prescribers/%s/locations", $prescriber_id), Request::DEFAULT_HEADERS, $body);
+
+        $request->withAuthorization($this->getToken(), true);
+
+        return $request->put();
+    }
+
+    /**
+     * Get the locations for a specific prescriber.
+     *
+     * @param  string $prescriber_id
+     * @return EazyScripts\Http\Response
+     */
+    public function getPrescriberLocations($prescriber_id)
+    {
+        $request = new Request(sprintf("/prescribers/%s/locations", $prescriber_id));
+
+        $request->withAuthorization($this->getToken(), true);
+
+        return $request->get();
+    }
+
+    /**
      * Get all of the pharmacies
      *
      * @param  SearchQuery|null $search
@@ -313,6 +347,32 @@ class EazyScripts
         $request->withAuthorization($this->getToken(), true);
 
         return $request->get();
+    }
+
+    /**
+     * Get the url for the new-prescription browser API call.
+     *
+     * @param  array  $params
+     * @return string
+     * @throws EazyScriptsException
+     */
+    public function getNewPrescriptionUrl($params = [])
+    {
+        if (!isset($params["PatientId"])) {
+            throw new EazyScriptsException("You must provide a PatientId when generating this url");
+        }
+
+        $request = new Request("/browser/new-prescription");
+
+        $query = http_build_query(array_merge([
+            "Token"             => $this->getToken(),
+            "ApplicationKey"    => $this->key,
+            "ApplicationSecret" => $this->secret,
+        ], $params));
+
+        return http_build_url($request->getUrl(), [
+            "query" => $query,
+        ]);
     }
 
     /**
