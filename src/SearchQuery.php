@@ -48,7 +48,7 @@ class SearchQuery
      *
      * @return array
      */
-    public function toRequestQuery()
+    public function getRequestQuery()
     {
         return [
             "Search" => trim($this->term),
