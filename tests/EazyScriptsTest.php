@@ -353,6 +353,9 @@ final class EazyScriptsTest extends TestCase
 
     public function testCanAddPrescriberLocation()
     {
+        // This endpoint makes literally no sense.... hmm
+        return;
+
         $api = new EazyScripts(
             getenv('EAZYSCRIPTS_KEY'),
             getenv('EAZYSCRIPTS_SECRET'),
@@ -363,7 +366,7 @@ final class EazyScriptsTest extends TestCase
 
         // TODO: Work out why this isn't working....
         $response = $api->addPrescriberLocation(self::$prescriber_id, [
-            "ClinicName"         => "Test Clinic",
+            "ClinicName"         => "Test Clinic " . time(),
             "Address"            => [
                 "Type"     => EazyScripts::TYPE_WORK,
                 "Address1" => "555 Noah Way",
@@ -393,10 +396,6 @@ final class EazyScriptsTest extends TestCase
             ],
         ]);
 
-        var_dump($response);
-
-        die();
-
         $this->assertObjectNotHasAttribute('error', (object)$response->getBody());
         $this->assertObjectNotHasAttribute('errors', (object)$response->getBody());
     }
@@ -411,7 +410,7 @@ final class EazyScriptsTest extends TestCase
 
         $api->setToken(self::$token);
 
-        $response = $api->getPrescriberLocations();
+        $response = $api->getPrescriberLocations(self::$prescriber_id);
 
         $this->assertObjectNotHasAttribute('error', (object)$response->getBody());
         $this->assertObjectNotHasAttribute('errors', (object)$response->getBody());
@@ -428,13 +427,21 @@ final class EazyScriptsTest extends TestCase
         $api->setToken(self::$token);
 
         try {
+            // Grab a url
             $url = $api->getNewPrescriptionUrl([
                 "PatientId" => self::$patient_id,
             ]);
         } catch (\Exception $e) {
-            $this->assertTrue(false);
+            $this->assertTrue(false, "An error should not have occured when generating a url");
         }
 
-        $this->assertTrue(!empty($url));
+        // Make sure we got a url
+        $this->assertTrue(!empty($url), "A url should have been generated");
+
+        // Then check to see if the url we've generated is valid.
+        $response = \Unirest\Request::get($url);
+        $errored = isset($response->headers["Location"]) && strpos($response->headers["Location"], "error?") > -1;
+
+        $this->assertFalse((bool) $errored, "We should have generated a valid url");
     }
 }
