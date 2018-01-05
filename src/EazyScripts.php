@@ -81,7 +81,7 @@ class EazyScripts
      */
     public function authenticate($body)
     {
-        $body = Body::json($body);
+        $body = Request::json($body);
 
         $request = new Request("/account/authenticate", Request::DEFAULT_HEADERS, $body);
 
@@ -129,7 +129,7 @@ class EazyScripts
             "Level" => self::USER_LEVEL_PATIENT,
         ];
 
-        $body = Body::json(array_merge($default, $body));
+        $body = Request::json(array_merge($default, $body));
 
         $request = new Request("/users", Request::DEFAULT_HEADERS, $body);
 
@@ -147,7 +147,7 @@ class EazyScripts
      */
     public function updatePatient($id, $body)
     {
-        $body = Body::json($body);
+        $body = Request::json($body);
 
         $request = new Request(sprintf("/patients/%s/info", $id), Request::DEFAULT_HEADERS, $body);
 
@@ -247,7 +247,7 @@ class EazyScripts
             "Level" => self::USER_LEVEL_DOCTOR,
         ];
 
-        $body = Body::json(array_merge($default, $body));
+        $body = Request::json(array_merge($default, $body));
 
         $request = new Request("/users", Request::DEFAULT_HEADERS, $body);
 
@@ -265,7 +265,7 @@ class EazyScripts
      */
     public function updatePrescriber($id, $body)
     {
-        $body = Body::json($body);
+        $body = Request::json($body);
 
         $request = new Request(sprintf("/prescribers/%s/info", $id), Request::DEFAULT_HEADERS, $body);
 
@@ -283,7 +283,7 @@ class EazyScripts
      */
     public function addPrescriberLocation($prescriber_id, $body)
     {
-        $body = Body::json($body);
+        $body = Request::json($body);
 
         $request = new Request(sprintf("/prescribers/%s/locations", $prescriber_id), Request::DEFAULT_HEADERS, $body);
 

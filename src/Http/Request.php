@@ -73,7 +73,7 @@ class Request
      * in an EazyScripts request.
      */
     const DEFAULT_HEADERS = [
-        "Content-Type" => "application/json",
+        "Content-Type" => "application/json;charset=utf-8",
     ];
 
     /**
@@ -134,6 +134,11 @@ class Request
     {
         self::$app_key = $key;
         self::$app_secret = $secret;
+    }
+
+    public static function json($what)
+    {
+        return json_encode($what, JSON_UNESCAPED_UNICODE);
     }
 
     /**

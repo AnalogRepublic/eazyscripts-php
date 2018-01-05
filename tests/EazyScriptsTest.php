@@ -74,8 +74,8 @@ final class EazyScriptsTest extends TestCase
         $api->setToken(self::$token);
 
         $response = $api->addPatient([
-            "FirstName"   => "Testing",
-            "LastName"    => "Patient",
+            "FirstName"   => "Tèöstiñg",
+            "LastName"    => "Pátient",
             "Email"       => time() . "testing+patient@testemail.com",
             "Password"    => "pa55word",
             "DateOfBirth" => "1970-2-1",
@@ -221,8 +221,8 @@ final class EazyScriptsTest extends TestCase
         self::$prescriber_email = time() . "testing+doctor@testemail.com";
 
         $response = $api->addPrescriber([
-            "FirstName"   => "Testing",
-            "LastName"    => "Doctor",
+            "FirstName"   => "Tèsting",
+            "LastName"    => "Döctor",
             "Email"       => self::$prescriber_email,
             "Password"    => "pa55word",
             "DateOfBirth" => "1970-3-1",
@@ -261,6 +261,14 @@ final class EazyScriptsTest extends TestCase
                 ],
             ],
         ]);
+
+        var_dump($response);
+
+        if (!empty($response->getBody()->errors)) {
+            print PHP_EOL . "Errors:" . PHP_EOL;
+            print_r($response->getBody());
+            print PHP_EOL;
+        }
 
         $this->assertObjectNotHasAttribute('error', (object)$response->getBody(), "We should not have received any errors");
         $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), "We should not have received any errors");
@@ -396,8 +404,6 @@ final class EazyScriptsTest extends TestCase
             ],
         ]);
 
-        var_dump($response->getBody());
-
         $this->assertObjectNotHasAttribute('error', (object)$response->getBody(), "We should not have received any errors");
         $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), "We should not have received any errors");
     }
@@ -445,8 +451,6 @@ final class EazyScriptsTest extends TestCase
         } catch (\Exception $e) {
             $this->assertTrue(false, "An error should not have occured when generating a url");
         }
-
-        die($url);
 
         // Make sure we got a url
         $this->assertTrue(!empty($url), "A url should have been generated");
