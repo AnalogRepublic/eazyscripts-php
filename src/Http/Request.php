@@ -157,7 +157,7 @@ class Request
     {
         $unirestResponse = UnirestRequest::post($this->path, $this->headers, $this->body);
 
-        return new Response($unirestResponse);
+        return new Response($unirestResponse, $this->path);
     }
 
     /**
@@ -169,7 +169,7 @@ class Request
     {
         $unirestResponse = UnirestRequest::get($this->path, $this->headers, $this->body);
 
-        return new Response($unirestResponse);
+        return new Response($unirestResponse, $this->path);
     }
 
     /**
@@ -181,7 +181,7 @@ class Request
     {
         $unirestResponse = UnirestRequest::put($this->path, $this->headers, $this->body);
 
-        return new Response($unirestResponse);
+        return new Response($unirestResponse, $this->path);
     }
 
     /**

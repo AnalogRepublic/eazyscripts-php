@@ -379,12 +379,19 @@ class EazyScripts
      * Get a patients active medications (prescriptions)
      *
      * @param  int $patient_id
+     * @param  SearchQuery|null $search
      * @return EazyScripts\Http\Response
      * @throws EazyScriptsException
      */
-    public function getActivePatientMedications(int $patient_id)
+    public function getActivePatientMedications(int $patient_id, $search = null)
     {
-        $request = new Request(sprintf("/patients/%d/prescriptions/active", $patient_id));
+        $query = [];
+
+        if (!is_null($search) && $search instanceof SearchQuery) {
+            $query = array_merge($query, $search->getRequestQuery());
+        }
+
+        $request = new Request(sprintf("/patients/%d/prescriptions/active", $patient_id), Request::DEFAULT_HEADERS, $query);
 
         $request->withAuthorization($this->getToken(), true);
 
