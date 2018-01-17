@@ -2,3 +2,4 @@
 .phpintel
 .env.testing
 vendor/
+composer.json.bak
