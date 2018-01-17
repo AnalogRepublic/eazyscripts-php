@@ -51,7 +51,7 @@ if (!function_exists('encode_request_data')) {
                 $current_character = $encoded[$i];
 
                 // Grab the next character as UTF-8
-                $next_character = @mb_substr($s, $j++, 1, 'UTF-8');
+                $next_character = @mb_substr($what, $j++, 1, 'UTF-8');
 
                 // Check for illegal characters.
                 if (strstr('`^~\'"', $current_character) !== false) {
