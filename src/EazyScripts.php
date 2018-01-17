@@ -376,6 +376,22 @@ class EazyScripts
     }
 
     /**
+     * Get a patients active medications (prescriptions)
+     *
+     * @param  int $patient_id
+     * @return EazyScripts\Http\Response
+     * @throws EazyScriptsException
+     */
+    public function getActivePatientMedications(int $patient_id)
+    {
+        $request = new Request(sprintf("/patients/%d/prescriptions/active", $patient_id));
+
+        $request->withAuthorization($this->getToken(), true);
+
+        return $request->get();
+    }
+
+    /**
      * Get the token we are using to authenticate
      * our API requests.
      *

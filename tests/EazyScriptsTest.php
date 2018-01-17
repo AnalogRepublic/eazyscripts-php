@@ -74,8 +74,8 @@ final class EazyScriptsTest extends TestCase
         $api->setToken(self::$token);
 
         $response = $api->addPatient([
-            "FirstName"   => "Tèöstiñg",
-            "LastName"    => "Pátient",
+            "FirstName"   => "Testing",
+            "LastName"    => "Patient",
             "Email"       => time() . "testing+patient@testemail.com",
             "Password"    => "pa55word",
             "DateOfBirth" => "1970-2-1",
@@ -221,8 +221,8 @@ final class EazyScriptsTest extends TestCase
         self::$prescriber_email = time() . "testing+doctor@testemail.com";
 
         $response = $api->addPrescriber([
-            "FirstName"   => "Tèsting",
-            "LastName"    => "Döctor",
+            "FirstName"   => "Weiß",
+            "LastName"    => "Gäben",
             "Email"       => self::$prescriber_email,
             "Password"    => "pa55word",
             "DateOfBirth" => "1970-3-1",
@@ -261,14 +261,6 @@ final class EazyScriptsTest extends TestCase
                 ],
             ],
         ]);
-
-        var_dump($response);
-
-        if (!empty($response->getBody()->errors)) {
-            print PHP_EOL . "Errors:" . PHP_EOL;
-            print_r($response->getBody());
-            print PHP_EOL;
-        }
 
         $this->assertObjectNotHasAttribute('error', (object)$response->getBody(), "We should not have received any errors");
         $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), "We should not have received any errors");
@@ -460,5 +452,21 @@ final class EazyScriptsTest extends TestCase
         $errored = isset($response->headers["Location"]) && strpos($response->headers["Location"], "error?") > -1;
 
         $this->assertFalse((bool) $errored, "We should have generated a valid url");
+    }
+
+    public function testCanGetActivePatientMedications()
+    {
+        $api = new EazyScripts(
+            getenv('EAZYSCRIPTS_KEY'),
+            getenv('EAZYSCRIPTS_SECRET'),
+            getenv('EAZYSCRIPTS_SUBDOMAIN')
+        );
+
+        $api->setToken(self::$token);
+
+        $response = $api->getActivePatientMedications(self::$patient_id);
+
+        $this->assertObjectNotHasAttribute('error', (object)$response->getBody(), "We should not have received any errors");
+        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), "We should not have received any errors");
     }
 }

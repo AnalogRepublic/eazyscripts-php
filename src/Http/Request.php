@@ -136,9 +136,16 @@ class Request
         self::$app_secret = $secret;
     }
 
+    /**
+     * Encode the body as json & encode the data so that it's
+     * suitable to be sent up to the API.
+     *
+     * @param  object|array $what
+     * @return string
+     */
     public static function json($what)
     {
-        return json_encode($what, JSON_UNESCAPED_UNICODE);
+        return json_encode(encode_request_data($what), JSON_UNESCAPED_UNICODE);
     }
 
     /**
