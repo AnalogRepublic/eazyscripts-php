@@ -157,6 +157,44 @@ class EazyScripts
     }
 
     /**
+     * Update an existing patients address.
+     *
+     * @param  string $patientId
+     * @param  string $addressId
+     * @param  array $body
+     * @return EazyScripts\Http\Response
+     */
+    public function updatePatientAddress($patientId, $addressId, $body)
+    {
+        $body = Body::json($body);
+
+        $request = new Request(sprintf("/patients/%s/address/%s", $patientId, $addressId), Request::DEFAULT_HEADERS, $body);
+
+        $request->withAuthorization($this->getToken(), true);
+
+        return $request->post();
+    }
+
+    /**
+     * Update an existing patients phone number.
+     *
+     * @param  string $patientId
+     * @param  string $phoneId
+     * @param  array $body
+     * @return EazyScripts\Http\Response
+     */
+    public function updatePatientPhoneNumber($patientId, $phoneId, $body)
+    {
+        $body = Body::json($body);
+
+        $request = new Request(sprintf("/patients/%s/phone-numbers/%s", $patientId, $phoneId), Request::DEFAULT_HEADERS, $body);
+
+        $request->withAuthorization($this->getToken(), true);
+
+        return $request->post();
+    }
+
+    /**
      * Get all of the prescriber specialties
      *
      * @param SearchQuery|null $search

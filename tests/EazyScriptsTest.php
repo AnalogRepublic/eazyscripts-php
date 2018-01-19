@@ -15,6 +15,8 @@ final class EazyScriptsTest extends TestCase
 {
     protected static $token;
     protected static $patient_id;
+    protected static $patient_address_id;
+    protected static $patient_phone_id;
     protected static $prescriber_id;
     protected static $specialty_id;
     protected static $qualifier_id;
@@ -115,6 +117,8 @@ final class EazyScriptsTest extends TestCase
         $this->assertObjectHasAttribute('id', $response->getBody());
 
         self::$patient_id = $response->getBody()->id;
+        self::$patient_address_id = $response->getBody()->Patient->HomeAddress;
+        self::$patient_phone_id = $response->getBody()->Patient->HomePhoneNumber;
     }
 
     public function testCanGetPatients()
@@ -160,7 +164,50 @@ final class EazyScriptsTest extends TestCase
         $api->setToken(self::$token);
 
         $response = $api->updatePatient(self::$patient_id, [
-            "consent" => null,
+            "Email" => time() . "testing+patientUpdated@testemail.com",
+        ]);
+
+        $this->assertObjectNotHasAttribute('error', (object)$response->getBody());
+        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody());
+    }
+
+    public function canUpdatePatientAddress()
+    {
+        $api = new EazyScripts(
+            getenv('EAZYSCRIPTS_KEY'),
+            getenv('EAZYSCRIPTS_SECRET'),
+            getenv('EAZYSCRIPTS_SUBDOMAIN')
+        );
+
+        $api->setToken(self::$token);
+
+        $response = $api->updatePatientAddress(self::$patient_id, self::$patient_address_id, [
+            "Address1" => "123 Test Road Updated",
+            "City"     => "San Diego",
+            "State"    => "CA",
+            "Country"  => "USA",
+            "Zip"      => "60654",
+            "Type"     => EazyScripts::TYPE_HOME,
+        ]);
+
+        $this->assertObjectNotHasAttribute('error', (object)$response->getBody());
+        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody());
+    }
+
+    public function canUpdatePatientPhoneNumber()
+    {
+        $api = new EazyScripts(
+            getenv('EAZYSCRIPTS_KEY'),
+            getenv('EAZYSCRIPTS_SECRET'),
+            getenv('EAZYSCRIPTS_SUBDOMAIN')
+        );
+
+        $api->setToken(self::$token);
+
+        $response = $api->updatePatientPhone(self::$patient_id, self::$patient_phone_id, [
+            "Number"    => "4155552672",
+            "Extension" => "+1",
+            "Type"      => EazyScripts::TYPE_HOME,
         ]);
 
         $this->assertObjectNotHasAttribute('error', (object)$response->getBody());
