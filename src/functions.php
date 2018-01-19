@@ -43,6 +43,12 @@ if (!function_exists('encode_request_data')) {
             $encoded_stripped = '';
             $encoded = iconv($old_encoding, 'ASCII//IGNORE//TRANSLIT', $what);
 
+            // Something went in but nothing came out
+            if ($what != '' && $encoded == '') {
+                // We'll do it again but without trying to translate.
+                $encoded = iconv($old_encoding, 'ASCII', $what);
+            }
+
             // Iterate the strings characters
             $j = 0;
             for ($i = 0; $i < strlen($encoded); $i++) {
@@ -51,7 +57,7 @@ if (!function_exists('encode_request_data')) {
                 $current_character = $encoded[$i];
 
                 // Grab the next character as UTF-8
-                $next_character = @mb_substr($what, $j++, 1, 'UTF-8');
+                $next_character = mb_substr($what, $j++, 1, $old_encoding);
 
                 // Check for illegal characters.
                 if (strstr('`^~\'"', $current_character) !== false) {
