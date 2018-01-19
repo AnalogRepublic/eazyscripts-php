@@ -118,6 +118,36 @@ class EazyScripts
     }
 
     /**
+     * Get a single patients addresses
+     *
+     * @param  string $id
+     * @return EazyScripts\Http\Response
+     */
+    public function getPatientAddresses($id)
+    {
+        $request = new Request(sprintf("/patients/%s/addresses", $id), Request::DEFAULT_HEADERS);
+
+        $request->withAuthorization($this->getToken(), true);
+
+        return $request->get();
+    }
+
+    /**
+     * Get a single patients phone numbers
+     *
+     * @param  string $id
+     * @return EazyScripts\Http\Response
+     */
+    public function getPatientPhoneNumbers($id)
+    {
+        $request = new Request(sprintf("/patients/%s/phone-numbers", $id), Request::DEFAULT_HEADERS);
+
+        $request->withAuthorization($this->getToken(), true);
+
+        return $request->get();
+    }
+
+    /**
      * Add a new patient record.
      *
      * @param array $body

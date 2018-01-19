@@ -118,8 +118,6 @@ final class EazyScriptsTest extends TestCase
         $this->assertObjectHasAttribute('id', $response->getBody());
 
         self::$patient_id = $response->getBody()->id;
-        self::$patient_address_id = $response->getBody()->Patient->HomeAddress;
-        self::$patient_phone_id = $response->getBody()->Patient->HomePhoneNumber;
     }
 
     public function testCanGetPatients()
@@ -152,6 +150,42 @@ final class EazyScriptsTest extends TestCase
 
         $this->assertObjectNotHasAttribute('error', (object)$response->getBody(), "We should not have received any errors");
         $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), "We should not have received any errors");
+    }
+
+    public function testCanGetPatientAddresses()
+    {
+        $api = new EazyScripts(
+            getenv('EAZYSCRIPTS_KEY'),
+            getenv('EAZYSCRIPTS_SECRET'),
+            getenv('EAZYSCRIPTS_SUBDOMAIN')
+        );
+
+        $api->setToken(self::$token);
+
+        $response = $api->getPatientAddresses(self::$patient_id);
+
+        $this->assertObjectNotHasAttribute('error', (object)$response->getBody(), "We should not have received any errors");
+        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), "We should not have received any errors");
+
+        self::$patient_address_id = current($response->getBody())->id;
+    }
+
+    public function testCanGetPatientPhoneNumbers()
+    {
+        $api = new EazyScripts(
+            getenv('EAZYSCRIPTS_KEY'),
+            getenv('EAZYSCRIPTS_SECRET'),
+            getenv('EAZYSCRIPTS_SUBDOMAIN')
+        );
+
+        $api->setToken(self::$token);
+
+        $response = $api->getPatientPhoneNumbers(self::$patient_id);
+
+        $this->assertObjectNotHasAttribute('error', (object)$response->getBody(), "We should not have received any errors");
+        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), "We should not have received any errors");
+
+        self::$patient_phone_id = current($response->getBody())->id;
     }
 
     public function testCanUpdatePatient()
