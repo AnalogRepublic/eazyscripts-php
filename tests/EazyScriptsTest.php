@@ -18,6 +18,7 @@ final class EazyScriptsTest extends TestCase
     protected static $patient_address_id;
     protected static $patient_phone_id;
     protected static $prescriber_id;
+    protected static $prescriber_email;
     protected static $specialty_id;
     protected static $qualifier_id;
 
@@ -59,8 +60,8 @@ final class EazyScriptsTest extends TestCase
 
         self::$token = $response->getToken();
 
-        $this->assertObjectNotHasAttribute('error', (object)$response->getBody());
-        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody());
+        $this->assertObjectNotHasAttribute('error', (object)$response->getBody(), "We should not have received any errors");
+        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), "We should not have received any errors");
         $this->assertNotFalse(self::$token);
     }
 
@@ -111,8 +112,8 @@ final class EazyScriptsTest extends TestCase
             ],
         ]);
 
-        $this->assertObjectNotHasAttribute('error', (object)$response->getBody());
-        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody());
+        $this->assertObjectNotHasAttribute('error', (object)$response->getBody(), "We should not have received any errors");
+        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), "We should not have received any errors");
 
         $this->assertObjectHasAttribute('id', $response->getBody());
 
@@ -133,8 +134,8 @@ final class EazyScriptsTest extends TestCase
 
         $response = $api->getPatients();
 
-        $this->assertObjectNotHasAttribute('error', (object)$response->getBody());
-        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody());
+        $this->assertObjectNotHasAttribute('error', (object)$response->getBody(), "We should not have received any errors");
+        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), "We should not have received any errors");
     }
 
     public function testCanGetPatient()
@@ -149,8 +150,8 @@ final class EazyScriptsTest extends TestCase
 
         $response = $api->getPatient(self::$patient_id);
 
-        $this->assertObjectNotHasAttribute('error', (object)$response->getBody());
-        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody());
+        $this->assertObjectNotHasAttribute('error', (object)$response->getBody(), "We should not have received any errors");
+        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), "We should not have received any errors");
     }
 
     public function testCanUpdatePatient()
@@ -210,8 +211,8 @@ final class EazyScriptsTest extends TestCase
             "Type"      => EazyScripts::TYPE_HOME,
         ]);
 
-        $this->assertObjectNotHasAttribute('error', (object)$response->getBody());
-        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody());
+        $this->assertObjectNotHasAttribute('error', (object)$response->getBody(), "We should not have received any errors");
+        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), "We should not have received any errors");
     }
 
     public function testCanGetPrescriberSpecialties()
@@ -226,8 +227,8 @@ final class EazyScriptsTest extends TestCase
 
         $response = $api->getPrescriberSpecialties();
 
-        $this->assertObjectNotHasAttribute('error', (object)$response->getBody());
-        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody());
+        $this->assertObjectNotHasAttribute('error', (object)$response->getBody(), "We should not have received any errors");
+        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), "We should not have received any errors");
 
         $this->assertNotEmpty($response->getBody());
 
@@ -246,8 +247,8 @@ final class EazyScriptsTest extends TestCase
 
         $response = $api->getPrescriberSpecialtyQualifiers();
 
-        $this->assertObjectNotHasAttribute('error', (object)$response->getBody());
-        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody());
+        $this->assertObjectNotHasAttribute('error', (object)$response->getBody(), "We should not have received any errors");
+        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), "We should not have received any errors");
 
         $this->assertNotEmpty($response->getBody());
 
@@ -264,10 +265,12 @@ final class EazyScriptsTest extends TestCase
 
         $api->setToken(self::$token);
 
+        self::$prescriber_email = time() . "testing+doctor@testemail.com";
+
         $response = $api->addPrescriber([
-            "FirstName"   => "Testing",
-            "LastName"    => "Doctor",
-            "Email"       => time() . "testing+doctor@testemail.com",
+            "FirstName"   => "Weiß",
+            "LastName"    => "Gäben",
+            "Email"       => self::$prescriber_email,
             "Password"    => "pa55word",
             "DateOfBirth" => "1970-3-1",
             "Gender"      => EazyScripts::GENDER_MALE,
@@ -306,8 +309,8 @@ final class EazyScriptsTest extends TestCase
             ],
         ]);
 
-        $this->assertObjectNotHasAttribute('error', (object)$response->getBody());
-        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody());
+        $this->assertObjectNotHasAttribute('error', (object)$response->getBody(), "We should not have received any errors");
+        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), "We should not have received any errors");
 
         $this->assertObjectHasAttribute('id', $response->getBody());
 
@@ -326,8 +329,8 @@ final class EazyScriptsTest extends TestCase
 
         $response = $api->getPrescribers();
 
-        $this->assertObjectNotHasAttribute('error', (object)$response->getBody());
-        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody());
+        $this->assertObjectNotHasAttribute('error', (object)$response->getBody(), "We should not have received any errors");
+        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), "We should not have received any errors");
     }
 
     public function testCanGetPrescriber()
@@ -342,8 +345,8 @@ final class EazyScriptsTest extends TestCase
 
         $response = $api->getPrescriber(self::$prescriber_id);
 
-        $this->assertObjectNotHasAttribute('error', (object)$response->getBody());
-        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody());
+        $this->assertObjectNotHasAttribute('error', (object)$response->getBody(), "We should not have received any errors");
+        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), "We should not have received any errors");
     }
 
     public function testCanUpdatePrescriber()
@@ -362,8 +365,8 @@ final class EazyScriptsTest extends TestCase
             "SpecialtyQualifier" => self::$qualifier_id,
         ]);
 
-        $this->assertObjectNotHasAttribute('error', (object)$response->getBody());
-        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody());
+        $this->assertObjectNotHasAttribute('error', (object)$response->getBody(), "We should not have received any errors");
+        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), "We should not have received any errors");
     }
 
     public function testCanGetPharmacies()
@@ -378,8 +381,8 @@ final class EazyScriptsTest extends TestCase
 
         $response = $api->getPharmacies();
 
-        $this->assertObjectNotHasAttribute('error', (object)$response->getBody());
-        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody());
+        $this->assertObjectNotHasAttribute('error', (object)$response->getBody(), "We should not have received any errors");
+        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), "We should not have received any errors");
     }
 
     public function testCanSearchMedicines()
@@ -394,8 +397,8 @@ final class EazyScriptsTest extends TestCase
 
         $response = $api->getMedicines(new SearchQuery("Advil", 1, 0));
 
-        $this->assertObjectNotHasAttribute('error', (object)$response->getBody());
-        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody());
+        $this->assertObjectNotHasAttribute('error', (object)$response->getBody(), "We should not have received any errors");
+        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), "We should not have received any errors");
     }
 
     public function testCanAddPrescriberLocation()
@@ -410,14 +413,14 @@ final class EazyScriptsTest extends TestCase
 
         // TODO: Work out why this isn't working....
         $response = $api->addPrescriberLocation(self::$prescriber_id, [
-            "ClinicName"         => "Test Clinic",
+            "ClinicName"         => "Test Clinic " . time(),
             "Address"            => [
                 "Type"     => EazyScripts::TYPE_WORK,
-                "Address1" => "555 Noah Way",
+                "Address1" => "556 Noah Way",
                 "City"     => "San Diego",
                 "State"    => "CA",
                 "Country"  => "USA",
-                "Zip"      => "92117",
+                "Zip"      => "92118",
             ],
             "Permissions" => [
                 "NewRx"               => false,
@@ -428,24 +431,20 @@ final class EazyScriptsTest extends TestCase
             ],
             "PhoneNumbers" => [
                 [
-                    "Number"    => "4155552671",
+                    "Number"    => "4155552673",
                     "Extension" => "+1",
                     "Type"      => EazyScripts::TYPE_WORK,
                 ],
                 [
-                    "Number"    => "4155552671",
+                    "Number"    => "4155552673",
                     "Extension" => "+1",
                     "Type"      => EazyScripts::TYPE_FAX,
                 ]
             ],
         ]);
 
-        var_dump($response);
-
-        die();
-
-        $this->assertObjectNotHasAttribute('error', (object)$response->getBody());
-        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody());
+        $this->assertObjectNotHasAttribute('error', (object)$response->getBody(), "We should not have received any errors");
+        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), "We should not have received any errors");
     }
 
     public function testCanGetPrescriberLocations()
@@ -458,10 +457,12 @@ final class EazyScriptsTest extends TestCase
 
         $api->setToken(self::$token);
 
-        $response = $api->getPrescriberLocations();
+        $response = $api->getPrescriberLocations(self::$prescriber_id);
 
-        $this->assertObjectNotHasAttribute('error', (object)$response->getBody());
-        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody());
+        $this->assertObjectNotHasAttribute('error', (object)$response->getBody(), "We should not have received any errors");
+        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), "We should not have received any errors");
+
+        $this->assertGreaterThanOrEqual(1, count($response->getBody()), "We should have at least 1 location returned");
     }
 
     public function testCanGetNewPrescriptionUrl()
@@ -472,16 +473,47 @@ final class EazyScriptsTest extends TestCase
             getenv('EAZYSCRIPTS_SUBDOMAIN')
         );
 
-        $api->setToken(self::$token);
+        $response = $api->authenticate([
+            'Email'        => self::$prescriber_email,
+            'Password'     => 'pa55word',
+            'Subdomain'    => getenv('EAZYSCRIPTS_SUBDOMAIN'),
+            'PlatformType' => EazyScripts::PLATFORM_SERVER,
+        ]);
+
+        $api->setToken($response->getBody()->token);
 
         try {
+            // Grab a url
             $url = $api->getNewPrescriptionUrl([
                 "PatientId" => self::$patient_id,
             ]);
         } catch (\Exception $e) {
-            $this->assertTrue(false);
+            $this->assertTrue(false, "An error should not have occured when generating a url");
         }
 
-        $this->assertTrue(!empty($url));
+        // Make sure we got a url
+        $this->assertTrue(!empty($url), "A url should have been generated");
+
+        // Then check to see if the url we've generated is valid.
+        $response = \Unirest\Request::get($url);
+        $errored = isset($response->headers["Location"]) && strpos($response->headers["Location"], "error?") > -1;
+
+        $this->assertFalse((bool) $errored, "We should have generated a valid url");
+    }
+
+    public function testCanGetActivePatientMedications()
+    {
+        $api = new EazyScripts(
+            getenv('EAZYSCRIPTS_KEY'),
+            getenv('EAZYSCRIPTS_SECRET'),
+            getenv('EAZYSCRIPTS_SUBDOMAIN')
+        );
+
+        $api->setToken(self::$token);
+
+        $response = $api->getActivePatientMedications(self::$patient_id);
+
+        $this->assertObjectNotHasAttribute('error', (object)$response->getBody(), "We should not have received any errors");
+        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), "We should not have received any errors");
     }
 }

@@ -81,7 +81,7 @@ class EazyScripts
      */
     public function authenticate($body)
     {
-        $body = Body::json($body);
+        $body = Request::json($body);
 
         $request = new Request("/account/authenticate", Request::DEFAULT_HEADERS, $body);
 
@@ -129,7 +129,7 @@ class EazyScripts
             "Level" => self::USER_LEVEL_PATIENT,
         ];
 
-        $body = Body::json(array_merge($default, $body));
+        $body = Request::json(array_merge($default, $body));
 
         $request = new Request("/users", Request::DEFAULT_HEADERS, $body);
 
@@ -147,7 +147,7 @@ class EazyScripts
      */
     public function updatePatient($id, $body)
     {
-        $body = Body::json($body);
+        $body = Request::json($body);
 
         $request = new Request(sprintf("/patients/%s/info", $id), Request::DEFAULT_HEADERS, $body);
 
@@ -285,7 +285,7 @@ class EazyScripts
             "Level" => self::USER_LEVEL_DOCTOR,
         ];
 
-        $body = Body::json(array_merge($default, $body));
+        $body = Request::json(array_merge($default, $body));
 
         $request = new Request("/users", Request::DEFAULT_HEADERS, $body);
 
@@ -303,7 +303,7 @@ class EazyScripts
      */
     public function updatePrescriber($id, $body)
     {
-        $body = Body::json($body);
+        $body = Request::json($body);
 
         $request = new Request(sprintf("/prescribers/%s/info", $id), Request::DEFAULT_HEADERS, $body);
 
@@ -321,7 +321,7 @@ class EazyScripts
      */
     public function addPrescriberLocation($prescriber_id, $body)
     {
-        $body = Body::json($body);
+        $body = Request::json($body);
 
         $request = new Request(sprintf("/prescribers/%s/locations", $prescriber_id), Request::DEFAULT_HEADERS, $body);
 
@@ -411,6 +411,29 @@ class EazyScripts
         return http_build_url($request->getUrl(), [
             "query" => $query,
         ]);
+    }
+
+    /**
+     * Get a patients active medications (prescriptions)
+     *
+     * @param  int $patient_id
+     * @param  SearchQuery|null $search
+     * @return EazyScripts\Http\Response
+     * @throws EazyScriptsException
+     */
+    public function getActivePatientMedications(int $patient_id, $search = null)
+    {
+        $query = [];
+
+        if (!is_null($search) && $search instanceof SearchQuery) {
+            $query = array_merge($query, $search->getRequestQuery());
+        }
+
+        $request = new Request(sprintf("/patients/%d/prescriptions/active", $patient_id), Request::DEFAULT_HEADERS, $query);
+
+        $request->withAuthorization($this->getToken(), true);
+
+        return $request->get();
     }
 
     /**

@@ -73,7 +73,7 @@ class Request
      * in an EazyScripts request.
      */
     const DEFAULT_HEADERS = [
-        "Content-Type" => "application/json",
+        "Content-Type" => "application/json;charset=utf-8",
     ];
 
     /**
@@ -137,6 +137,18 @@ class Request
     }
 
     /**
+     * Encode the body as json & encode the data so that it's
+     * suitable to be sent up to the API.
+     *
+     * @param  object|array $what
+     * @return string
+     */
+    public static function json($what)
+    {
+        return json_encode(encode_request_data($what), JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
      * Make a post request given the information that we have.
      *
      * @return EazyScripts\Http\Response
@@ -145,7 +157,7 @@ class Request
     {
         $unirestResponse = UnirestRequest::post($this->path, $this->headers, $this->body);
 
-        return new Response($unirestResponse);
+        return new Response($unirestResponse, $this->path);
     }
 
     /**
@@ -157,7 +169,7 @@ class Request
     {
         $unirestResponse = UnirestRequest::get($this->path, $this->headers, $this->body);
 
-        return new Response($unirestResponse);
+        return new Response($unirestResponse, $this->path);
     }
 
     /**
@@ -169,7 +181,7 @@ class Request
     {
         $unirestResponse = UnirestRequest::put($this->path, $this->headers, $this->body);
 
-        return new Response($unirestResponse);
+        return new Response($unirestResponse, $this->path);
     }
 
     /**

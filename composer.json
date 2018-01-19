@@ -1,7 +1,7 @@
 {
     "name": "craigchilds/eazyscripts-php",
     "description": "EazyScripts PHP SDK",
-    "version": "1.1.4",
+    "version": "1.2.3",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -13,7 +13,10 @@
     "autoload": {
         "psr-4": {
             "EazyScripts\\": "src/"
-        }
+        },
+        "files": [
+            "src/functions.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
