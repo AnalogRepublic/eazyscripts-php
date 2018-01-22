@@ -216,7 +216,7 @@ class EazyScripts
     {
         $body = Body::json($body);
 
-        $request = new Request(sprintf("/patients/%s/address/%s", $patientId, $addressId), Request::DEFAULT_HEADERS, $body);
+        $request = new Request(sprintf("/patients/%s/addresses/%s", $patientId, $addressId), Request::DEFAULT_HEADERS, $body);
 
         $request->withAuthorization($this->getToken(), true);
 
