@@ -199,7 +199,33 @@ final class EazyScriptsTest extends TestCase
         $api->setToken(self::$token);
 
         $response = $api->updatePatient(self::$patient_id, [
-            "Email" => time() . "testing+patientUpdated@testemail.com",
+            "consent" => null,
+        ]);
+
+        $this->assertObjectNotHasAttribute('error', (object)$response->getBody());
+        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody());
+
+        $this->assertFalse(is_null($response->getBody()->consent));
+    }
+
+    public function testCanUpdateUserInfo()
+    {
+        $api = new EazyScripts(
+            getenv('EAZYSCRIPTS_KEY'),
+            getenv('EAZYSCRIPTS_SECRET'),
+            getenv('EAZYSCRIPTS_SUBDOMAIN')
+        );
+
+        $api->setToken(self::$token);
+
+        $response = $api->updateUserInfo(self::$patient_id, [
+            "FirstName"   => "Testing",
+            "MiddleName"  => "Update",
+            "LastName"    => "User",
+            "Email"       => time() . "testing+patient_updated@testemail.com",
+            "Password"    => "pa55word",
+            "DateOfBirth" => "1971-2-1",
+            "Gender"      => EazyScripts::GENDER_MALE,
         ]);
 
         $this->assertObjectNotHasAttribute('error', (object)$response->getBody());

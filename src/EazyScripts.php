@@ -169,6 +169,24 @@ class EazyScripts
     }
 
     /**
+     * Update an existing users info
+     *
+     * @param string $id
+     * @param array $body
+     * @return EazyScripts\Http\Response
+     */
+    public function updateUserInfo($id, $body)
+    {
+        $body = Request::json($body);
+
+        $request = new Request(sprintf("/users/%s/info", $id), Request::DEFAULT_HEADERS, $body);
+
+        $request->withAuthorization($this->getToken(), true);
+
+        return $request->post();
+    }
+
+    /**
      * Update an existing patient
      *
      * @param string $id
