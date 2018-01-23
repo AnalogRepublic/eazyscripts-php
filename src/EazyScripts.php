@@ -343,7 +343,7 @@ class EazyScripts
     }
 
     /**
-     * Updated a single prescriber.
+     * Update a single prescriber.
      *
      * @param  string $id
      * @param  array $body
@@ -376,6 +376,25 @@ class EazyScripts
         $request->withAuthorization($this->getToken(), true);
 
         return $request->put();
+    }
+
+    /**
+     * Update a prescribers location.
+     *
+     * @param  string $prescriber_id
+     * @param  string $location_id
+     * @param  array $body
+     * @return EazyScripts\Http\Response
+     */
+    public function updatePrescriberLocation($prescriber_id, $location_id, $body)
+    {
+        $body = Request::json($body);
+
+        $request = new Request(sprintf("/prescribers/%s/locations/%s", $prescriber_id, $location_id), Request::DEFAULT_HEADERS, $body);
+
+        $request->withAuthorization($this->getToken(), true);
+
+        return $request->post();
     }
 
     /**
