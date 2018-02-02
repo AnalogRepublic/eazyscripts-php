@@ -338,6 +338,26 @@ final class EazyScriptsTest extends TestCase
         $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), "We should not have received any errors");
     }
 
+    public function testCanGetPharmaciesByZip()
+    {
+        $api = new EazyScripts(
+            getenv('EAZYSCRIPTS_KEY'),
+            getenv('EAZYSCRIPTS_SECRET'),
+            getenv('EAZYSCRIPTS_SUBDOMAIN')
+        );
+
+        $api->setToken(self::$token);
+
+        $response = $api->getPharmacies(new SearchQuery("78223"));
+
+        $body = (object)$response->getBody();
+
+        $this->assertObjectNotHasAttribute('error', $body, "We should not have received any errors");
+        $this->assertObjectNotHasAttribute('errors', $body, "We should not have received any errors");
+
+        $this->assertFalse(strpos($body->data[0]->address->zip, "78223") === false);
+    }
+
     public function testCanSearchMedicines()
     {
         $api = new EazyScripts(
