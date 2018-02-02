@@ -118,6 +118,36 @@ class EazyScripts
     }
 
     /**
+     * Get a single patients addresses
+     *
+     * @param  string $id
+     * @return EazyScripts\Http\Response
+     */
+    public function getPatientAddresses($id)
+    {
+        $request = new Request(sprintf("/patients/%s/addresses", $id), Request::DEFAULT_HEADERS);
+
+        $request->withAuthorization($this->getToken(), true);
+
+        return $request->get();
+    }
+
+    /**
+     * Get a single patients phone numbers
+     *
+     * @param  string $id
+     * @return EazyScripts\Http\Response
+     */
+    public function getPatientPhoneNumbers($id)
+    {
+        $request = new Request(sprintf("/patients/%s/phone-numbers", $id), Request::DEFAULT_HEADERS);
+
+        $request->withAuthorization($this->getToken(), true);
+
+        return $request->get();
+    }
+
+    /**
      * Add a new patient record.
      *
      * @param array $body
@@ -139,6 +169,24 @@ class EazyScripts
     }
 
     /**
+     * Update an existing users info
+     *
+     * @param string $id
+     * @param array $body
+     * @return EazyScripts\Http\Response
+     */
+    public function updateUserInfo($id, $body)
+    {
+        $body = Request::json($body);
+
+        $request = new Request(sprintf("/users/%s/info", $id), Request::DEFAULT_HEADERS, $body);
+
+        $request->withAuthorization($this->getToken(), true);
+
+        return $request->post();
+    }
+
+    /**
      * Update an existing patient
      *
      * @param string $id
@@ -150,6 +198,44 @@ class EazyScripts
         $body = Request::json($body);
 
         $request = new Request(sprintf("/patients/%s/info", $id), Request::DEFAULT_HEADERS, $body);
+
+        $request->withAuthorization($this->getToken(), true);
+
+        return $request->post();
+    }
+
+    /**
+     * Update an existing patients address.
+     *
+     * @param  string $patientId
+     * @param  string $addressId
+     * @param  array $body
+     * @return EazyScripts\Http\Response
+     */
+    public function updatePatientAddress($patientId, $addressId, $body)
+    {
+        $body = Body::json($body);
+
+        $request = new Request(sprintf("/patients/%s/addresses/%s", $patientId, $addressId), Request::DEFAULT_HEADERS, $body);
+
+        $request->withAuthorization($this->getToken(), true);
+
+        return $request->post();
+    }
+
+    /**
+     * Update an existing patients phone number.
+     *
+     * @param  string $patientId
+     * @param  string $phoneId
+     * @param  array $body
+     * @return EazyScripts\Http\Response
+     */
+    public function updatePatientPhoneNumber($patientId, $phoneId, $body)
+    {
+        $body = Body::json($body);
+
+        $request = new Request(sprintf("/patients/%s/phone-numbers/%s", $patientId, $phoneId), Request::DEFAULT_HEADERS, $body);
 
         $request->withAuthorization($this->getToken(), true);
 
@@ -257,7 +343,7 @@ class EazyScripts
     }
 
     /**
-     * Updated a single prescriber.
+     * Update a single prescriber.
      *
      * @param  string $id
      * @param  array $body
@@ -290,6 +376,25 @@ class EazyScripts
         $request->withAuthorization($this->getToken(), true);
 
         return $request->put();
+    }
+
+    /**
+     * Update a prescribers location.
+     *
+     * @param  string $prescriber_id
+     * @param  string $location_id
+     * @param  array $body
+     * @return EazyScripts\Http\Response
+     */
+    public function updatePrescriberLocation($prescriber_id, $location_id, $body)
+    {
+        $body = Request::json($body);
+
+        $request = new Request(sprintf("/prescribers/%s/locations/%s", $prescriber_id, $location_id), Request::DEFAULT_HEADERS, $body);
+
+        $request->withAuthorization($this->getToken(), true);
+
+        return $request->post();
     }
 
     /**
