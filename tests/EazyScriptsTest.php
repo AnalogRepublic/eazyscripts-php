@@ -634,7 +634,7 @@ final class EazyScriptsTest extends TestCase
 
         $api->setToken($response->getBody()->token);
 
-        $response = $api->getPrescribersPreferredPrescriptions(self::$prescriber_id);
+        $response = $api->getPrescribersPreferredPrescriptions();
 
         $this->assertObjectNotHasAttribute('error', (object)$response->getBody(), "We should not have received any errors");
         $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), "We should not have received any errors");
