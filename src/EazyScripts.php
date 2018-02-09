@@ -413,6 +413,21 @@ class EazyScripts
     }
 
     /**
+     * Get the preferred prescriptions for a prescriber
+     *
+     * @param  string $prescriber_id
+     * @return EazyScripts\Http\Response
+     */
+    public function getPrescribersPreferredPrescriptions($prescriber_id)
+    {
+        $request = new Request(sprintf("/prescriber/preferred-prescriptions", $prescriber_id));
+
+        $request->withAuthorization($this->getToken(), true);
+
+        return $request->get();
+    }
+
+    /**
      * Get all of the pharmacies
      *
      * @param  SearchQuery|null $search

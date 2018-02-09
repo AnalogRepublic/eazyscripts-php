@@ -616,4 +616,27 @@ final class EazyScriptsTest extends TestCase
         $this->assertObjectNotHasAttribute('error', (object)$response->getBody(), "We should not have received any errors");
         $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), "We should not have received any errors");
     }
+
+    public function testCanGetPrescriberPreferredPrescriptions()
+    {
+        $api = new EazyScripts(
+            getenv('EAZYSCRIPTS_KEY'),
+            getenv('EAZYSCRIPTS_SECRET'),
+            getenv('EAZYSCRIPTS_SUBDOMAIN')
+        );
+
+        $response = $api->authenticate([
+            'Email'        => self::$prescriber_email,
+            'Password'     => 'pa55word',
+            'Subdomain'    => getenv('EAZYSCRIPTS_SUBDOMAIN'),
+            'PlatformType' => EazyScripts::PLATFORM_SERVER,
+        ]);
+
+        $api->setToken($response->getBody()->token);
+
+        $response = $api->getPrescribersPreferredPrescriptions(self::$prescriber_id);
+
+        $this->assertObjectNotHasAttribute('error', (object)$response->getBody(), "We should not have received any errors");
+        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), "We should not have received any errors");
+    }
 }
