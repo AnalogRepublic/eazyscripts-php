@@ -510,6 +510,29 @@ final class EazyScriptsTest extends TestCase
         $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), "We should not have received any errors");
     }
 
+    public function testCanGetPendingPermissions()
+    {
+        $api = new EazyScripts(
+            getenv('EAZYSCRIPTS_KEY'),
+            getenv('EAZYSCRIPTS_SECRET'),
+            getenv('EAZYSCRIPTS_SUBDOMAIN')
+        );
+
+        $response = $api->authenticate([
+            'Email'        => self::$prescriber_email,
+            'Password'     => 'pa55word',
+            'Subdomain'    => getenv('EAZYSCRIPTS_SUBDOMAIN'),
+            'PlatformType' => EazyScripts::PLATFORM_SERVER,
+        ]);
+
+        $api->setToken($response->getBody()->token);
+
+        $response = $api->getPendingPermissions();
+
+        $this->assertObjectNotHasAttribute('error', (object)$response->getBody(), "We should not have received any errors");
+        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), "We should not have received any errors");
+    }
+
     public function testCanGetPharmacies()
     {
         $api = new EazyScripts(
@@ -666,6 +689,42 @@ final class EazyScriptsTest extends TestCase
         try {
             // Grab a url
             $url = $api->getNewPrescriptionUrl([
+                "PatientId" => self::$patient_id,
+            ]);
+        } catch (\Exception $e) {
+            $this->assertTrue(false, "An error should not have occured when generating a url");
+        }
+
+        // Make sure we got a url
+        $this->assertTrue(!empty($url), "A url should have been generated");
+
+        // Then check to see if the url we've generated is valid.
+        $response = \Unirest\Request::get($url);
+        $errored = isset($response->headers["Location"]) && strpos($response->headers["Location"], "error?") > -1;
+
+        $this->assertFalse((bool) $errored, "We should have generated a valid url");
+    }
+
+    public function testCanGetRefillUrl()
+    {
+        $api = new EazyScripts(
+            getenv('EAZYSCRIPTS_KEY'),
+            getenv('EAZYSCRIPTS_SECRET'),
+            getenv('EAZYSCRIPTS_SUBDOMAIN')
+        );
+
+        $response = $api->authenticate([
+            'Email'        => self::$prescriber_email,
+            'Password'     => 'pa55word',
+            'Subdomain'    => getenv('EAZYSCRIPTS_SUBDOMAIN'),
+            'PlatformType' => EazyScripts::PLATFORM_SERVER,
+        ]);
+
+        $api->setToken($response->getBody()->token);
+
+        try {
+            // Grab a url
+            $url = $api->getRefillUrl([
                 "PatientId" => self::$patient_id,
             ]);
         } catch (\Exception $e) {
