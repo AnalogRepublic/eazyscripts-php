@@ -348,7 +348,7 @@ final class EazyScriptsTest extends TestCase
                     "Zip"      => "92117",
                 ],
                 "Permissions" => [
-                    "NewRx"               => false,
+                    "NewRx"               => true,
                     "Refill"              => false,
                     "Change"              => false,
                     "Cancel"              => false,
@@ -375,6 +375,66 @@ final class EazyScriptsTest extends TestCase
         $this->assertObjectHasAttribute('id', $response->getBody());
 
         self::$prescriber_id = $response->getBody()->id;
+    }
+
+    public function testCanAddEPCSPrescriber()
+    {
+        $api = new EazyScripts(
+            getenv('EAZYSCRIPTS_KEY'),
+            getenv('EAZYSCRIPTS_SECRET'),
+            getenv('EAZYSCRIPTS_SUBDOMAIN')
+        );
+
+        $api->setToken(self::$token);
+
+        $prescriber_email = time() . "testing+epcsdoctor@testemail.com";
+
+        $response = $api->addPrescriber([
+            "FirstName"   => "EPCS",
+            "LastName"    => "Doctor",
+            "Email"       => $prescriber_email,
+            "Password"    => "pa55word",
+            "DateOfBirth" => "1970-5-1",
+            "Gender"      => EazyScripts::GENDER_MALE,
+            "Prescriber"  => [
+                "Npi"                           => "1234567891",
+                "Specialty"                     => self::$specialty_id,
+                "SpecialtyQualifier"            => self::$qualifier_id,
+                "ClinicName"                    => "Test Clinic 2",
+                "Address"                       => [
+                    "Type"     => EazyScripts::TYPE_WORK,
+                    "Address1" => "555 Noah Way",
+                    "City"     => "San Diego",
+                    "State"    => "CA",
+                    "Country"  => "USA",
+                    "Zip"      => "92117",
+                ],
+                "Permissions" => [
+                    "NewRx"               => true,
+                    "Refill"              => false,
+                    "Change"              => false,
+                    "Cancel"              => true,
+                    "ControlledSubstance" => true,
+                ],
+                "PhoneNumbers" => [
+                    [
+                        "Number"    => "4155552671",
+                        "Extension" => "+1",
+                        "Type"      => EazyScripts::TYPE_WORK,
+                    ],
+                    [
+                        "Number"    => "4155552671",
+                        "Extension" => "+1",
+                        "Type"      => EazyScripts::TYPE_FAX,
+                    ]
+                ],
+            ],
+        ]);
+
+        $this->assertObjectNotHasAttribute('error', (object)$response->getBody(), "We should not have received any errors");
+        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), "We should not have received any errors");
+
+        $this->assertObjectHasAttribute('id', $response->getBody());
     }
 
     public function testCanGetPrescribers()
@@ -423,6 +483,27 @@ final class EazyScriptsTest extends TestCase
             "Npi"                => "1234567890",
             "Specialty"          => self::$specialty_id,
             "SpecialtyQualifier" => self::$qualifier_id,
+        ]);
+
+        $this->assertObjectNotHasAttribute('error', (object)$response->getBody(), "We should not have received any errors");
+        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), "We should not have received any errors");
+    }
+
+    public function testCanAdd2FAUserId()
+    {
+        $api = new EazyScripts(
+            getenv('EAZYSCRIPTS_KEY'),
+            getenv('EAZYSCRIPTS_SECRET'),
+            getenv('EAZYSCRIPTS_SUBDOMAIN')
+        );
+
+        $api->setToken(self::$token);
+
+        $response = $api->updatePrescriber(self::$prescriber_id, [
+            "Npi"                           => "1234567890",
+            "Specialty"                     => self::$specialty_id,
+            "SpecialtyQualifier"            => self::$qualifier_id,
+            "TwoFactorAuthenticationUserId" => self::$prescriber_email,
         ]);
 
         $this->assertObjectNotHasAttribute('error', (object)$response->getBody(), "We should not have received any errors");
