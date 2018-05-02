@@ -1,5 +1,5 @@
 {
-    "name": "craigchilds/eazyscripts-php",
+    "name": "analogrepublic/eazyscripts-php",
     "description": "EazyScripts PHP SDK",
     "version": "1.2.8",
     "type": "library",
@@ -7,7 +7,7 @@
     "authors": [
         {
             "name": "Craig Childs",
-            "email": "childscraig17@gmail.com"
+            "email": "craig@analogrepublic.com"
         }
     ],
     "autoload": {
