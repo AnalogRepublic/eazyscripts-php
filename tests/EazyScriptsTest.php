@@ -705,6 +705,32 @@ final class EazyScriptsTest extends TestCase
         $this->assertFalse((bool) $errored, "We should have generated a valid url");
     }
 
+    public function testCanGetRefillRequests()
+    {
+        $api = new EazyScripts(
+            getenv('EAZYSCRIPTS_KEY'),
+            getenv('EAZYSCRIPTS_SECRET'),
+            getenv('EAZYSCRIPTS_SUBDOMAIN')
+        );
+
+        $response = $api->authenticate([
+            'Email'        => self::$prescriber_email,
+            'Password'     => 'pa55word',
+            'Subdomain'    => getenv('EAZYSCRIPTS_SUBDOMAIN'),
+            'PlatformType' => EazyScripts::PLATFORM_SERVER,
+        ]);
+
+        $api->setToken($response->getBody()->token);
+
+        $response = $api->getRefillRequests();
+
+        var_dump($response);
+        die();
+
+        $this->assertObjectNotHasAttribute('error', (object)$response->getBody(), "We should not have received any errors");
+        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), "We should not have received any errors");
+    }
+
     public function testCanGetRefillUrl()
     {
         $api = new EazyScripts(
@@ -725,7 +751,8 @@ final class EazyScriptsTest extends TestCase
         try {
             // Grab a url
             $url = $api->getRefillUrl([
-                "PatientId" => self::$patient_id,
+                "PatientId"       => self::$patient_id,
+                "RefillRequestId" => 1,
             ]);
         } catch (\Exception $e) {
             $this->assertTrue(false, "An error should not have occured when generating a url");

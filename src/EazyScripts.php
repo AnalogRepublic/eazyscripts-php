@@ -507,6 +507,10 @@ class EazyScripts
             throw new EazyScriptsException("You must provide a PatientId when generating this url");
         }
 
+        if (!isset($params['RefillRequestId'])) {
+            throw new EazyScriptsException("You must provide a RefillRequestId when generating this url");
+        }
+
         $request = new Request("/browser/refill");
 
         $query = http_build_query(array_merge([
@@ -546,10 +550,11 @@ class EazyScripts
     /**
      * Get the pending permissions.
      *
+     * @param  SearchQuery|null $search
      * @return EazyScripts\Http\Response
      * @throws EazyScriptsException
      */
-    public function getPendingPermissions()
+    public function getPendingPermissions($search = null)
     {
         $query = [];
 
@@ -558,6 +563,28 @@ class EazyScripts
         }
 
         $request = new Request("/prescriber/permissions/pendings", Request::DEFAULT_HEADERS, $query);
+
+        $request->withAuthorization($this->getToken(), true);
+
+        return $request->get();
+    }
+
+    /**
+     * Get refill requests
+     *
+     * @param  SearchQuery|null $search
+     * @return EazyScripts\Http\Response
+     * @throws EazyScriptsException
+     */
+    public function getRefillRequests($search = null)
+    {
+        $query = [];
+
+        if (!is_null($search) && $search instanceof SearchQuery) {
+            $query = array_merge($query, $search->getRequestQuery());
+        }
+
+        $request = new Request("/requests/refills", Request::DEFAULT_HEADERS, $query);
 
         $request->withAuthorization($this->getToken(), true);
 
