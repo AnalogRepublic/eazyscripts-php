@@ -21,6 +21,7 @@ final class EazyScriptsTest extends TestCase
     protected static $prescriber_email;
     protected static $specialty_id;
     protected static $qualifier_id;
+    protected static $refill_request_id;
 
     public function setUp()
     {
@@ -199,13 +200,13 @@ final class EazyScriptsTest extends TestCase
         $api->setToken(self::$token);
 
         $response = $api->updatePatient(self::$patient_id, [
-            "consent" => null,
+            "OtherGenderIdentity" => "female",
         ]);
 
         $this->assertObjectNotHasAttribute('error', (object)$response->getBody());
         $this->assertObjectNotHasAttribute('errors', (object)$response->getBody());
 
-        $this->assertFalse(is_null($response->getBody()->consent));
+        $this->assertTrue($response->getBody()->otherGenderIdentity == "female", "The 'otherGenderIdentity' field must have updated to the value we've set.");
     }
 
     public function testCanUpdateUserInfo()
@@ -724,15 +725,22 @@ final class EazyScriptsTest extends TestCase
 
         $response = $api->getRefillRequests();
 
-        var_dump($response);
-        die();
-
         $this->assertObjectNotHasAttribute('error', (object)$response->getBody(), "We should not have received any errors");
         $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), "We should not have received any errors");
+
+        $body = $response->getBody();
+
+        if (isset($body->data) && count($body->data) > 0) {
+            $this->assertTrue(count($body->data) > 0, "We should have received some requests");
+            $request = current($body->data);
+            self::$refill_request_id = $request->id;
+        }
     }
 
     public function testCanGetRefillUrl()
     {
+        $this->assertTrue(!is_null(self::$refill_request_id), "We should have a refill request to generate a url for");
+
         $api = new EazyScripts(
             getenv('EAZYSCRIPTS_KEY'),
             getenv('EAZYSCRIPTS_SECRET'),
@@ -752,7 +760,7 @@ final class EazyScriptsTest extends TestCase
             // Grab a url
             $url = $api->getRefillUrl([
                 "PatientId"       => self::$patient_id,
-                "RefillRequestId" => 1,
+                "RefillRequestId" => self::$refill_request_id,
             ]);
         } catch (\Exception $e) {
             $this->assertTrue(false, "An error should not have occured when generating a url");
