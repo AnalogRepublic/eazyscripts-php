@@ -664,8 +664,9 @@ final class EazyScriptsTest extends TestCase
 
         $response = $api->getPrescriberLocations(self::$prescriber_id);
 
-        $this->assertObjectNotHasAttribute('error', (object)$response->getBody(), "We should not have received any errors");
-        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), "We should not have received any errors");
+        $message = "We should not have received any errors";
+        $this->assertObjectNotHasAttribute('error', (object)$response->getBody(), $message);
+        $this->assertObjectNotHasAttribute('errors', (object)$response->getBody(), $message);
 
         $this->assertGreaterThanOrEqual(1, count($response->getBody()), "We should have at least 1 location returned");
     }
