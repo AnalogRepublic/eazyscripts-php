@@ -469,6 +469,28 @@ class EazyScripts
     }
 
     /**
+     * Get an auto-login url
+     *
+     * @param  array  $params
+     * @return string
+     * @throws EazyScriptsException
+     */
+    public function getAutoLoginUrl($params = [])
+    {
+        $request = new Request("/browser/auto-login");
+
+        $query = http_build_query(array_merge([
+            "Token"             => $this->getToken(),
+            "ApplicationKey"    => $this->key,
+            "ApplicationSecret" => $this->secret,
+        ], $params));
+
+        return http_build_url($request->getUrl(), [
+            "query" => $query,
+        ]);
+    }
+
+    /**
      * Get the url for the new-prescription browser API call.
      *
      * @param  array  $params

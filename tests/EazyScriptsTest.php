@@ -777,6 +777,40 @@ final class EazyScriptsTest extends TestCase
         $this->assertFalse((bool) $errored, "We should have generated a valid url");
     }
 
+    public function testCanGetAutoLoginUrll()
+    {
+        $api = new EazyScripts(
+            getenv('EAZYSCRIPTS_KEY'),
+            getenv('EAZYSCRIPTS_SECRET'),
+            getenv('EAZYSCRIPTS_SUBDOMAIN')
+        );
+
+        $response = $api->authenticate([
+            'Email'        => self::$prescriber_email,
+            'Password'     => 'pa55word',
+            'Subdomain'    => getenv('EAZYSCRIPTS_SUBDOMAIN'),
+            'PlatformType' => EazyScripts::PLATFORM_SERVER,
+        ]);
+
+        $api->setToken($response->getBody()->token);
+
+        try {
+            // Grab a url
+            $url = $api->getAutoLoginUrl();
+        } catch (\Exception $e) {
+            $this->assertTrue(false, "An error should not have occured when generating a url");
+        }
+
+        // Make sure we got a url
+        $this->assertTrue(!empty($url), "A url should have been generated");
+
+        // Then check to see if the url we've generated is valid.
+        $response = \Unirest\Request::get($url);
+        $errored = isset($response->headers["Location"]) && strpos($response->headers["Location"], "error?") > -1;
+
+        $this->assertFalse((bool) $errored, "We should have generated a valid url");
+    }
+
     public function testCanGetActivePatientMedications()
     {
         $api = new EazyScripts(
