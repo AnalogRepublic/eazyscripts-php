@@ -94,6 +94,8 @@ class Request
         ], $headers);
 
         $this->body = $body;
+
+        $this->verifySSLCertificate((bool) env('VERIFY_SSL_CERT', true));
     }
 
     /**
@@ -192,6 +194,18 @@ class Request
     public function getUrl()
     {
         return $this->path;
+    }
+
+    /**
+     * Set the option to verify the SSL certificate on APIs
+     * that we interact with.
+     *
+     * @param  bool $verify
+     * @return void
+     */
+    public function verifySSLCertificate($verify)
+    {
+        UnirestRequest::verifyPeer($verify);
     }
 
     private function buildPath($path)
