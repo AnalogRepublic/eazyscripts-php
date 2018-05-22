@@ -1,5 +1,23 @@
 <?php
 
+if (!function_exists('env')) {
+
+    /**
+     * Get an item from the $_ENV with a fallback option.
+     *
+     * @param  string  $key
+     * @param  boolean $fallback
+     * @return mixed
+     */
+    function env($key, $fallback = false)
+    {
+        if (isset($_ENV[$key])) {
+            return $_ENV[$key];
+        }
+
+        return $fallback;
+    }
+}
 
 if (!function_exists('encode_request_data')) {
 

@@ -37,9 +37,9 @@ final class EazyScriptsTest extends TestCase
         $this->assertInstanceOf(
             EazyScripts::class,
             new EazyScripts(
-                getenv('EAZYSCRIPTS_KEY'),
-                getenv('EAZYSCRIPTS_SECRET'),
-                getenv('EAZYSCRIPTS_SUBDOMAIN')
+                env('EAZYSCRIPTS_KEY'),
+                env('EAZYSCRIPTS_SECRET'),
+                env('EAZYSCRIPTS_SUBDOMAIN')
             )
         );
     }
@@ -47,15 +47,15 @@ final class EazyScriptsTest extends TestCase
     public function testCanAuthenticate()
     {
         $api = new EazyScripts(
-            getenv('EAZYSCRIPTS_KEY'),
-            getenv('EAZYSCRIPTS_SECRET'),
-            getenv('EAZYSCRIPTS_SUBDOMAIN')
+            env('EAZYSCRIPTS_KEY'),
+            env('EAZYSCRIPTS_SECRET'),
+            env('EAZYSCRIPTS_SUBDOMAIN')
         );
 
         $response = $api->authenticate([
-            'Email'        => getenv('EAZYSCRIPTS_EMAIL'),
-            'Password'     => getenv('EAZYSCRIPTS_PASSWORD'),
-            'Subdomain'    => getenv('EAZYSCRIPTS_SUBDOMAIN'),
+            'Email'        => env('EAZYSCRIPTS_EMAIL'),
+            'Password'     => env('EAZYSCRIPTS_PASSWORD'),
+            'Subdomain'    => env('EAZYSCRIPTS_SUBDOMAIN'),
             'PlatformType' => EazyScripts::PLATFORM_SERVER,
         ]);
 
@@ -69,9 +69,9 @@ final class EazyScriptsTest extends TestCase
     public function testCanAddPatient()
     {
         $api = new EazyScripts(
-            getenv('EAZYSCRIPTS_KEY'),
-            getenv('EAZYSCRIPTS_SECRET'),
-            getenv('EAZYSCRIPTS_SUBDOMAIN')
+            env('EAZYSCRIPTS_KEY'),
+            env('EAZYSCRIPTS_SECRET'),
+            env('EAZYSCRIPTS_SUBDOMAIN')
         );
 
         $api->setToken(self::$token);
@@ -124,9 +124,9 @@ final class EazyScriptsTest extends TestCase
     public function testCanGetPatients()
     {
         $api = new EazyScripts(
-            getenv('EAZYSCRIPTS_KEY'),
-            getenv('EAZYSCRIPTS_SECRET'),
-            getenv('EAZYSCRIPTS_SUBDOMAIN')
+            env('EAZYSCRIPTS_KEY'),
+            env('EAZYSCRIPTS_SECRET'),
+            env('EAZYSCRIPTS_SUBDOMAIN')
         );
 
         $api->setToken(self::$token);
@@ -140,9 +140,9 @@ final class EazyScriptsTest extends TestCase
     public function testCanGetPatient()
     {
         $api = new EazyScripts(
-            getenv('EAZYSCRIPTS_KEY'),
-            getenv('EAZYSCRIPTS_SECRET'),
-            getenv('EAZYSCRIPTS_SUBDOMAIN')
+            env('EAZYSCRIPTS_KEY'),
+            env('EAZYSCRIPTS_SECRET'),
+            env('EAZYSCRIPTS_SUBDOMAIN')
         );
 
         $api->setToken(self::$token);
@@ -156,9 +156,9 @@ final class EazyScriptsTest extends TestCase
     public function testCanGetPatientAddresses()
     {
         $api = new EazyScripts(
-            getenv('EAZYSCRIPTS_KEY'),
-            getenv('EAZYSCRIPTS_SECRET'),
-            getenv('EAZYSCRIPTS_SUBDOMAIN')
+            env('EAZYSCRIPTS_KEY'),
+            env('EAZYSCRIPTS_SECRET'),
+            env('EAZYSCRIPTS_SUBDOMAIN')
         );
 
         $api->setToken(self::$token);
@@ -174,9 +174,9 @@ final class EazyScriptsTest extends TestCase
     public function testCanGetPatientPhoneNumbers()
     {
         $api = new EazyScripts(
-            getenv('EAZYSCRIPTS_KEY'),
-            getenv('EAZYSCRIPTS_SECRET'),
-            getenv('EAZYSCRIPTS_SUBDOMAIN')
+            env('EAZYSCRIPTS_KEY'),
+            env('EAZYSCRIPTS_SECRET'),
+            env('EAZYSCRIPTS_SUBDOMAIN')
         );
 
         $api->setToken(self::$token);
@@ -192,9 +192,9 @@ final class EazyScriptsTest extends TestCase
     public function testCanUpdatePatient()
     {
         $api = new EazyScripts(
-            getenv('EAZYSCRIPTS_KEY'),
-            getenv('EAZYSCRIPTS_SECRET'),
-            getenv('EAZYSCRIPTS_SUBDOMAIN')
+            env('EAZYSCRIPTS_KEY'),
+            env('EAZYSCRIPTS_SECRET'),
+            env('EAZYSCRIPTS_SUBDOMAIN')
         );
 
         $api->setToken(self::$token);
@@ -212,9 +212,9 @@ final class EazyScriptsTest extends TestCase
     public function testCanUpdateUserInfo()
     {
         $api = new EazyScripts(
-            getenv('EAZYSCRIPTS_KEY'),
-            getenv('EAZYSCRIPTS_SECRET'),
-            getenv('EAZYSCRIPTS_SUBDOMAIN')
+            env('EAZYSCRIPTS_KEY'),
+            env('EAZYSCRIPTS_SECRET'),
+            env('EAZYSCRIPTS_SUBDOMAIN')
         );
 
         $api->setToken(self::$token);
@@ -236,9 +236,9 @@ final class EazyScriptsTest extends TestCase
     public function canUpdatePatientAddress()
     {
         $api = new EazyScripts(
-            getenv('EAZYSCRIPTS_KEY'),
-            getenv('EAZYSCRIPTS_SECRET'),
-            getenv('EAZYSCRIPTS_SUBDOMAIN')
+            env('EAZYSCRIPTS_KEY'),
+            env('EAZYSCRIPTS_SECRET'),
+            env('EAZYSCRIPTS_SUBDOMAIN')
         );
 
         $api->setToken(self::$token);
@@ -259,9 +259,9 @@ final class EazyScriptsTest extends TestCase
     public function canUpdatePatientPhoneNumber()
     {
         $api = new EazyScripts(
-            getenv('EAZYSCRIPTS_KEY'),
-            getenv('EAZYSCRIPTS_SECRET'),
-            getenv('EAZYSCRIPTS_SUBDOMAIN')
+            env('EAZYSCRIPTS_KEY'),
+            env('EAZYSCRIPTS_SECRET'),
+            env('EAZYSCRIPTS_SUBDOMAIN')
         );
 
         $api->setToken(self::$token);
@@ -279,9 +279,9 @@ final class EazyScriptsTest extends TestCase
     public function testCanGetPrescriberSpecialties()
     {
         $api = new EazyScripts(
-            getenv('EAZYSCRIPTS_KEY'),
-            getenv('EAZYSCRIPTS_SECRET'),
-            getenv('EAZYSCRIPTS_SUBDOMAIN')
+            env('EAZYSCRIPTS_KEY'),
+            env('EAZYSCRIPTS_SECRET'),
+            env('EAZYSCRIPTS_SUBDOMAIN')
         );
 
         $api->setToken(self::$token);
@@ -299,9 +299,9 @@ final class EazyScriptsTest extends TestCase
     public function testCanGetPrescriberSpecialtyQualifiers()
     {
         $api = new EazyScripts(
-            getenv('EAZYSCRIPTS_KEY'),
-            getenv('EAZYSCRIPTS_SECRET'),
-            getenv('EAZYSCRIPTS_SUBDOMAIN')
+            env('EAZYSCRIPTS_KEY'),
+            env('EAZYSCRIPTS_SECRET'),
+            env('EAZYSCRIPTS_SUBDOMAIN')
         );
 
         $api->setToken(self::$token);
@@ -319,9 +319,9 @@ final class EazyScriptsTest extends TestCase
     public function testCanAddPrescriber()
     {
         $api = new EazyScripts(
-            getenv('EAZYSCRIPTS_KEY'),
-            getenv('EAZYSCRIPTS_SECRET'),
-            getenv('EAZYSCRIPTS_SUBDOMAIN')
+            env('EAZYSCRIPTS_KEY'),
+            env('EAZYSCRIPTS_SECRET'),
+            env('EAZYSCRIPTS_SUBDOMAIN')
         );
 
         $api->setToken(self::$token);
@@ -381,9 +381,9 @@ final class EazyScriptsTest extends TestCase
     public function testCanAddEPCSPrescriber()
     {
         $api = new EazyScripts(
-            getenv('EAZYSCRIPTS_KEY'),
-            getenv('EAZYSCRIPTS_SECRET'),
-            getenv('EAZYSCRIPTS_SUBDOMAIN')
+            env('EAZYSCRIPTS_KEY'),
+            env('EAZYSCRIPTS_SECRET'),
+            env('EAZYSCRIPTS_SUBDOMAIN')
         );
 
         $api->setToken(self::$token);
@@ -441,9 +441,9 @@ final class EazyScriptsTest extends TestCase
     public function testCanGetPrescribers()
     {
         $api = new EazyScripts(
-            getenv('EAZYSCRIPTS_KEY'),
-            getenv('EAZYSCRIPTS_SECRET'),
-            getenv('EAZYSCRIPTS_SUBDOMAIN')
+            env('EAZYSCRIPTS_KEY'),
+            env('EAZYSCRIPTS_SECRET'),
+            env('EAZYSCRIPTS_SUBDOMAIN')
         );
 
         $api->setToken(self::$token);
@@ -457,9 +457,9 @@ final class EazyScriptsTest extends TestCase
     public function testCanGetPrescriber()
     {
         $api = new EazyScripts(
-            getenv('EAZYSCRIPTS_KEY'),
-            getenv('EAZYSCRIPTS_SECRET'),
-            getenv('EAZYSCRIPTS_SUBDOMAIN')
+            env('EAZYSCRIPTS_KEY'),
+            env('EAZYSCRIPTS_SECRET'),
+            env('EAZYSCRIPTS_SUBDOMAIN')
         );
 
         $api->setToken(self::$token);
@@ -473,9 +473,9 @@ final class EazyScriptsTest extends TestCase
     public function testCanUpdatePrescriber()
     {
         $api = new EazyScripts(
-            getenv('EAZYSCRIPTS_KEY'),
-            getenv('EAZYSCRIPTS_SECRET'),
-            getenv('EAZYSCRIPTS_SUBDOMAIN')
+            env('EAZYSCRIPTS_KEY'),
+            env('EAZYSCRIPTS_SECRET'),
+            env('EAZYSCRIPTS_SUBDOMAIN')
         );
 
         $api->setToken(self::$token);
@@ -493,9 +493,9 @@ final class EazyScriptsTest extends TestCase
     public function testCanAdd2FAUserId()
     {
         $api = new EazyScripts(
-            getenv('EAZYSCRIPTS_KEY'),
-            getenv('EAZYSCRIPTS_SECRET'),
-            getenv('EAZYSCRIPTS_SUBDOMAIN')
+            env('EAZYSCRIPTS_KEY'),
+            env('EAZYSCRIPTS_SECRET'),
+            env('EAZYSCRIPTS_SUBDOMAIN')
         );
 
         $api->setToken(self::$token);
@@ -514,15 +514,15 @@ final class EazyScriptsTest extends TestCase
     public function testCanGetPendingPermissions()
     {
         $api = new EazyScripts(
-            getenv('EAZYSCRIPTS_KEY'),
-            getenv('EAZYSCRIPTS_SECRET'),
-            getenv('EAZYSCRIPTS_SUBDOMAIN')
+            env('EAZYSCRIPTS_KEY'),
+            env('EAZYSCRIPTS_SECRET'),
+            env('EAZYSCRIPTS_SUBDOMAIN')
         );
 
         $response = $api->authenticate([
             'Email'        => self::$prescriber_email,
             'Password'     => 'pa55word',
-            'Subdomain'    => getenv('EAZYSCRIPTS_SUBDOMAIN'),
+            'Subdomain'    => env('EAZYSCRIPTS_SUBDOMAIN'),
             'PlatformType' => EazyScripts::PLATFORM_SERVER,
         ]);
 
@@ -537,9 +537,9 @@ final class EazyScriptsTest extends TestCase
     public function testCanGetPharmacies()
     {
         $api = new EazyScripts(
-            getenv('EAZYSCRIPTS_KEY'),
-            getenv('EAZYSCRIPTS_SECRET'),
-            getenv('EAZYSCRIPTS_SUBDOMAIN')
+            env('EAZYSCRIPTS_KEY'),
+            env('EAZYSCRIPTS_SECRET'),
+            env('EAZYSCRIPTS_SUBDOMAIN')
         );
 
         $api->setToken(self::$token);
@@ -553,9 +553,9 @@ final class EazyScriptsTest extends TestCase
     public function testCanGetPharmaciesByZip()
     {
         $api = new EazyScripts(
-            getenv('EAZYSCRIPTS_KEY'),
-            getenv('EAZYSCRIPTS_SECRET'),
-            getenv('EAZYSCRIPTS_SUBDOMAIN')
+            env('EAZYSCRIPTS_KEY'),
+            env('EAZYSCRIPTS_SECRET'),
+            env('EAZYSCRIPTS_SUBDOMAIN')
         );
 
         $api->setToken(self::$token);
@@ -573,9 +573,9 @@ final class EazyScriptsTest extends TestCase
     public function testCanGetPharmaciesByCity()
     {
         $api = new EazyScripts(
-            getenv('EAZYSCRIPTS_KEY'),
-            getenv('EAZYSCRIPTS_SECRET'),
-            getenv('EAZYSCRIPTS_SUBDOMAIN')
+            env('EAZYSCRIPTS_KEY'),
+            env('EAZYSCRIPTS_SECRET'),
+            env('EAZYSCRIPTS_SUBDOMAIN')
         );
 
         $api->setToken(self::$token);
@@ -593,9 +593,9 @@ final class EazyScriptsTest extends TestCase
     public function testCanSearchMedicines()
     {
         $api = new EazyScripts(
-            getenv('EAZYSCRIPTS_KEY'),
-            getenv('EAZYSCRIPTS_SECRET'),
-            getenv('EAZYSCRIPTS_SUBDOMAIN')
+            env('EAZYSCRIPTS_KEY'),
+            env('EAZYSCRIPTS_SECRET'),
+            env('EAZYSCRIPTS_SUBDOMAIN')
         );
 
         $api->setToken(self::$token);
@@ -609,9 +609,9 @@ final class EazyScriptsTest extends TestCase
     // public function testCanAddPrescriberLocation()
     // {
     //     $api = new EazyScripts(
-    //         getenv('EAZYSCRIPTS_KEY'),
-    //         getenv('EAZYSCRIPTS_SECRET'),
-    //         getenv('EAZYSCRIPTS_SUBDOMAIN')
+    //         env('EAZYSCRIPTS_KEY'),
+    //         env('EAZYSCRIPTS_SECRET'),
+    //         env('EAZYSCRIPTS_SUBDOMAIN')
     //     );
 
     //     $api->setToken(self::$token);
@@ -655,9 +655,9 @@ final class EazyScriptsTest extends TestCase
     public function testCanGetPrescriberLocations()
     {
         $api = new EazyScripts(
-            getenv('EAZYSCRIPTS_KEY'),
-            getenv('EAZYSCRIPTS_SECRET'),
-            getenv('EAZYSCRIPTS_SUBDOMAIN')
+            env('EAZYSCRIPTS_KEY'),
+            env('EAZYSCRIPTS_SECRET'),
+            env('EAZYSCRIPTS_SUBDOMAIN')
         );
 
         $api->setToken(self::$token);
@@ -674,15 +674,15 @@ final class EazyScriptsTest extends TestCase
     public function testCanGetNewPrescriptionUrl()
     {
         $api = new EazyScripts(
-            getenv('EAZYSCRIPTS_KEY'),
-            getenv('EAZYSCRIPTS_SECRET'),
-            getenv('EAZYSCRIPTS_SUBDOMAIN')
+            env('EAZYSCRIPTS_KEY'),
+            env('EAZYSCRIPTS_SECRET'),
+            env('EAZYSCRIPTS_SUBDOMAIN')
         );
 
         $response = $api->authenticate([
             'Email'        => self::$prescriber_email,
             'Password'     => 'pa55word',
-            'Subdomain'    => getenv('EAZYSCRIPTS_SUBDOMAIN'),
+            'Subdomain'    => env('EAZYSCRIPTS_SUBDOMAIN'),
             'PlatformType' => EazyScripts::PLATFORM_SERVER,
         ]);
 
@@ -710,15 +710,15 @@ final class EazyScriptsTest extends TestCase
     public function testCanGetRefillRequests()
     {
         $api = new EazyScripts(
-            getenv('EAZYSCRIPTS_KEY'),
-            getenv('EAZYSCRIPTS_SECRET'),
-            getenv('EAZYSCRIPTS_SUBDOMAIN')
+            env('EAZYSCRIPTS_KEY'),
+            env('EAZYSCRIPTS_SECRET'),
+            env('EAZYSCRIPTS_SUBDOMAIN')
         );
 
         $response = $api->authenticate([
             'Email'        => self::$prescriber_email,
             'Password'     => 'pa55word',
-            'Subdomain'    => getenv('EAZYSCRIPTS_SUBDOMAIN'),
+            'Subdomain'    => env('EAZYSCRIPTS_SUBDOMAIN'),
             'PlatformType' => EazyScripts::PLATFORM_SERVER,
         ]);
 
@@ -743,15 +743,15 @@ final class EazyScriptsTest extends TestCase
         $this->assertTrue(!is_null(self::$refill_request_id), "We should have a refill request to generate a url for");
 
         $api = new EazyScripts(
-            getenv('EAZYSCRIPTS_KEY'),
-            getenv('EAZYSCRIPTS_SECRET'),
-            getenv('EAZYSCRIPTS_SUBDOMAIN')
+            env('EAZYSCRIPTS_KEY'),
+            env('EAZYSCRIPTS_SECRET'),
+            env('EAZYSCRIPTS_SUBDOMAIN')
         );
 
         $response = $api->authenticate([
             'Email'        => self::$prescriber_email,
             'Password'     => 'pa55word',
-            'Subdomain'    => getenv('EAZYSCRIPTS_SUBDOMAIN'),
+            'Subdomain'    => env('EAZYSCRIPTS_SUBDOMAIN'),
             'PlatformType' => EazyScripts::PLATFORM_SERVER,
         ]);
 
@@ -780,15 +780,15 @@ final class EazyScriptsTest extends TestCase
     public function testCanGetAutoLoginUrll()
     {
         $api = new EazyScripts(
-            getenv('EAZYSCRIPTS_KEY'),
-            getenv('EAZYSCRIPTS_SECRET'),
-            getenv('EAZYSCRIPTS_SUBDOMAIN')
+            env('EAZYSCRIPTS_KEY'),
+            env('EAZYSCRIPTS_SECRET'),
+            env('EAZYSCRIPTS_SUBDOMAIN')
         );
 
         $response = $api->authenticate([
             'Email'        => self::$prescriber_email,
             'Password'     => 'pa55word',
-            'Subdomain'    => getenv('EAZYSCRIPTS_SUBDOMAIN'),
+            'Subdomain'    => env('EAZYSCRIPTS_SUBDOMAIN'),
             'PlatformType' => EazyScripts::PLATFORM_SERVER,
         ]);
 
@@ -814,9 +814,9 @@ final class EazyScriptsTest extends TestCase
     public function testCanGetActivePatientMedications()
     {
         $api = new EazyScripts(
-            getenv('EAZYSCRIPTS_KEY'),
-            getenv('EAZYSCRIPTS_SECRET'),
-            getenv('EAZYSCRIPTS_SUBDOMAIN')
+            env('EAZYSCRIPTS_KEY'),
+            env('EAZYSCRIPTS_SECRET'),
+            env('EAZYSCRIPTS_SUBDOMAIN')
         );
 
         $api->setToken(self::$token);
@@ -830,15 +830,15 @@ final class EazyScriptsTest extends TestCase
     public function testCanGetPrescriberPreferredPrescriptions()
     {
         $api = new EazyScripts(
-            getenv('EAZYSCRIPTS_KEY'),
-            getenv('EAZYSCRIPTS_SECRET'),
-            getenv('EAZYSCRIPTS_SUBDOMAIN')
+            env('EAZYSCRIPTS_KEY'),
+            env('EAZYSCRIPTS_SECRET'),
+            env('EAZYSCRIPTS_SUBDOMAIN')
         );
 
         $response = $api->authenticate([
             'Email'        => self::$prescriber_email,
             'Password'     => 'pa55word',
-            'Subdomain'    => getenv('EAZYSCRIPTS_SUBDOMAIN'),
+            'Subdomain'    => env('EAZYSCRIPTS_SUBDOMAIN'),
             'PlatformType' => EazyScripts::PLATFORM_SERVER,
         ]);
 
